@@ -7,14 +7,14 @@
     <meta name="keywords" content="treino, fitness, hipertrofia, musculação, off-season">
     <meta property="og:title" content="GYMHUB - OFF SEASON">
     <meta property="og:description" content="Treinos old school para alcançar seus objetivos.">
-    <meta property="og:image" content="imagens/logo.png">
-    <meta property="og:url" content="https://seusite.com">
+    <meta property="og:image" content="/gymhub/imagens/logo.png">
+    <meta property="og:url" content="https://orickmaxx.github.io/gymhub/">
     <title>GYMHUB - Treinos para Hipertrofia</title>
     <link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <!-- Adicionando o manifesto para o PWA -->
-    <link rel="manifest" href="/site-de-treino/manifest.json">
+    <link rel="manifest" href="/gymhub/manifest.json">
     <!-- Meta tags para melhor integração com dispositivos móveis -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -379,13 +379,13 @@
 </head>
 <body>
     <video id="background-video" autoplay loop muted playsinline preload="auto">
-        <source src="videos/fundo2.mp4" type="video/mp4">
+        <source src="/gymhub/videos/fundo2.mp4" type="video/mp4">
         Seu navegador não suporta a tag de vídeo.
     </video>
 
     <header>
         <div class="logo-container">
-            <img src="imagens/logo.png" alt="OFF-SEASON ALLDAY Logo" loading="lazy">
+            <img src="/gymhub/imagens/logo.png" alt="OFF-SEASON ALLDAY Logo" loading="lazy">
             <span>By <a href="https://www.instagram.com/orickmax" target="_blank">@orickmax</a></span>
         </div>
         <nav>
@@ -397,7 +397,7 @@
 
     <section class="hero" id="home">
         <div class="hero-content">
-            <img src="imagens/logo.png" alt="OFF-SEASON ALLDAY Logo" loading="lazy">
+            <img src="/gymhub/imagens/logo.png" alt="OFF-SEASON ALLDAY Logo" loading="lazy">
             <a href="#treinos">Ver Treinos</a>
         </div>
     </section>
@@ -413,28 +413,28 @@
         </div>
         <div class="treinos-grid">
             <div class="treino-card" onclick="openModal('Treino A - PEITO/OMBRO')">
-                <img src="imagens/A.png" alt="A - Peito" loading="lazy">
+                <img src="/gymhub/imagens/A.png" alt="A - Peito" loading="lazy">
                 <div class="treino-card-content">
                     <h3>A - PEITO e OMBRO</h3>
                     <p>Foco em peito com técnicas old school para hipertrofia.</p>
                 </div>
             </div>
             <div class="treino-card" onclick="openModal('Treino B - COSTAS')">
-                <img src="imagens/B.png" alt="B - Costas" loading="lazy">
+                <img src="/gymhub/imagens/B.png" alt="B - Costas" loading="lazy">
                 <div class="treino-card-content">
                     <h3>B - COSTAS e ANTEBRAÇO</h3>
                     <p>Treino de costas old school para largura e densidade.</p>
                 </div>
             </div>
             <div class="treino-card" onclick="openModal('Treino C - BÍCEPS/TRÍCEPS')">
-                <img src="imagens/C.png" alt="C - Bíceps e Tríceps" loading="lazy">
+                <img src="/gymhub/imagens/C.png" alt="C - Bíceps e Tríceps" loading="lazy">
                 <div class="treino-card-content">
                     <h3>C - BÍCEPS e TRÍCEPS</h3>
                     <p>Foco em braços com técnicas old school, bi-sets e piramidal para biceps e triceps.</p>
                 </div>
             </div>
             <div class="treino-card" onclick="openModal('Treino D - LEG DAY💀')">
-                <img src="imagens/D.png" alt="D - Full Body" loading="lazy">
+                <img src="/gymhub/imagens/D.png" alt="D - Full Body" loading="lazy">
                 <div class="treino-card-content">
                     <h3>D - LEG DAY💀</h3>
                     <p>LEG DAY para resistência e condicionamento geral de pernas.</p>
@@ -690,7 +690,7 @@
         // Registrar o Service Worker para funcionalidade offline
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/site-de-treino/service-worker.js')
+                navigator.serviceWorker.register('/gymhub/service-worker.js')
                     .then(registration => {
                         console.log('Service Worker registrado com sucesso:', registration);
                     })
@@ -703,6 +703,7 @@
         // Lógica para o botão de instalação do PWA
         let deferredPrompt;
         window.addEventListener('beforeinstallprompt', (e) => {
+            console.log('Evento beforeinstallprompt disparado');
             e.preventDefault();
             deferredPrompt = e;
             document.getElementById('install-prompt').style.display = 'flex';
@@ -721,5 +722,5 @@
             });
         }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'938fa33cd943bfbb',t:'MTc0NjEwNjI3MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
