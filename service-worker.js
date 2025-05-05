@@ -1,10 +1,10 @@
-const CACHE_NAME = 'gymhub-cache-v1';
+const CACHE_NAME = 'gymhub-cache-v2';
 const urlsToCache = [
   '/gymhub/',
   '/gymhub/index.html',
   '/gymhub/imagens/logo.png',
-  '/gymhubo/imagens/A.png',
-  '/gymhub/imagens/B.png',
+  '/gymhub/imagens/A.png',
+  '/gymhub/im  '/gymhub/imagens/B.png',
   '/gymhub/imagens/C.png',
   '/gymhub/imagens/D.png',
   '/gymhub/videos/fundo2.mp4',
