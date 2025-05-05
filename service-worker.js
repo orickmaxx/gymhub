@@ -1,13 +1,13 @@
 const CACHE_NAME = 'gymhub-cache-v1';
 const urlsToCache = [
-  '/site-de-treino/',
-  '/site-de-treino/index.html',
-  '/site-de-treino/imagens/logo.png',
-  '/site-de-treino/imagens/A.png',
-  '/site-de-treino/imagens/B.png',
-  '/site-de-treino/imagens/C.png',
-  '/site-de-treino/imagens/D.png',
-  '/site-de-treino/videos/fundo2.mp4',
+  '/gymhub/',
+  '/gymhub/index.html',
+  '/gymhub/imagens/logo.png',
+  '/gymhubo/imagens/A.png',
+  '/gymhub/imagens/B.png',
+  '/gymhub/imagens/C.png',
+  '/gymhub/imagens/D.png',
+  '/gymhub/videos/fundo2.mp4',
   'https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@400;700&display=swap',
   'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js',
   'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js'
