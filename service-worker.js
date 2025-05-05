@@ -1,19 +1,18 @@
-const CACHE_NAME = 'gymhub-cache-v3'; // Incremente a versão
+const CACHE_NAME = 'gymhub-cache-v3';
 const urlsToCache = [
-    '/gymhub/',
-    '/gymhub/index.html',
-    '/gymhub/imagens/logo.png',
-    '/gymhub/imagens/A.png',
-    '/gymhub/imagens/B.png',
-    '/gymhub/imagens/C.png',
-    '/gymhub/imagens/D.png',
-    '/gymhub/videos/fundo2.mp4',
-    '/gymhub/imagens/instagram-icon.png', // Adicione aqui
-    '/gymhub/manifest.json',
-    '/gymhub/service-worker.js'
-    'https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@400;700&display=swap',
-    'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js',
-    'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js'
+  '/gymhub/',
+  '/gymhub/index.html',
+  '/gymhub/imagens/logo.png',
+  '/gymhub/imagens/A.png',
+  '/gymhub/imagens/B.png',
+  '/gymhub/imagens/C.png',
+  '/gymhub/imagens/D.png',
+  '/gymhub/videos/fundo2.mp4',
+  '/gymhub/manifest.json',
+  'https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@400;700&display=swap',
+  'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js',
+  'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js',
+  'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css'
 ];
 
 // Instalação do Service Worker e cache dos arquivos
