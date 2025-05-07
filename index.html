@@ -298,6 +298,93 @@
             transform: translateY(-2px);
             box-shadow: 0 6px 15px rgba(245, 166, 35, 0.7);
         }
+        /* Estilo da seção de calculadora TMB */
+        .calculadora-tmb {
+            padding: 80px 20px;
+            text-align: center;
+        }
+        .calculadora-tmb h2 {
+            font-size: 36px;
+            font-weight: 700;
+            color: #F5A623;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+        .calculadora-tmb p {
+            font-size: 16px;
+            color: #999999;
+            margin-bottom: 30px;
+        }
+        .tmb-form {
+            background: #1A1A1A;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 500px;
+            margin: 0 auto;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+        .tmb-form label {
+            display: block;
+            font-size: 14px;
+            color: #FFFFFF;
+            margin-bottom: 5px;
+            text-align: left;
+        }
+        .tmb-form input,
+        .tmb-form select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            background: #333333;
+            border: none;
+            border-radius: 5px;
+            color: #FFFFFF;
+            font-size: 14px;
+        }
+        .tmb-form input:focus,
+        .tmb-form select:focus {
+            outline: none;
+            background: #444444;
+        }
+        .tmb-form button {
+            background: #F5A623;
+            color: #000000;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .tmb-form button:hover {
+            background: #FFFFFF;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(245, 166, 35, 0.7);
+        }
+        .tmb-result {
+            margin-top: 30px;
+            background: #1A1A1A;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 500px;
+            margin: 30px auto 0;
+        }
+        .tmb-result h3 {
+            font-size: 20px;
+            color: #F5A623;
+            margin-bottom: 15px;
+        }
+        .tmb-result p {
+            font-size: 16px;
+            color: #FFFFFF;
+            margin-bottom: 10px;
+        }
+        .tmb-result p span {
+            color: #F5A623;
+            font-weight: 700;
+        }
         footer {
             background: #000000;
             padding: 15px;
@@ -382,7 +469,8 @@
                 width: 120px;
                 font-size: 12px;
             }
-            .treinos h2 {
+            .treinos h2,
+            .calculadora-tmb h2 {
                 font-size: 28px;
             }
             .treino-card img {
@@ -391,6 +479,9 @@
             }
             .treinos-grid {
                 grid-template-columns: repeat(auto-fill, minmax(280px, 320px));
+            }
+            .tmb-form {
+                padding: 20px;
             }
             #install-prompt {
                 bottom: 10px;
@@ -428,6 +519,7 @@
         <nav>
             <a href="#home">Home</a>
             <a href="#treinos">Treinos</a>
+            <a href="#calculadora-tmb">Calculadora TMB</a>
             <input type="search" placeholder="Buscar treinos..." class="search-bar" aria-label="Buscar treinos">
         </nav>
     </header>
@@ -477,6 +569,41 @@
                     <p>LEG DAY para resistência e condicionamento geral de pernas.</p>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <section class="calculadora-tmb" id="calculadora-tmb">
+        <h2>Calculadora de TMB</h2>
+        <p>Descubra o total de calorias gastas para manter as funções vitais e determine sua necessidade diária de calorias (NDC).</p>
+        <div class="tmb-form">
+            <label for="peso">Peso (em quilos):</label>
+            <input type="number" id="peso" placeholder="Ex: 70" required>
+            <label for="altura">Altura (em centímetros):</label>
+            <input type="number" id="altura" placeholder="Ex: 170" required>
+            <label for="idade">Idade:</label>
+            <input type="number" id="idade" placeholder="Ex: 30" required>
+            <label for="sexo">Sexo:</label>
+            <select id="sexo" required>
+                <option value="" disabled selected>Selecione</option>
+                <option value="masculino">Masculino</option>
+                <option value="feminino">Feminino</option>
+            </select>
+            <label for="atividade">Nível de Atividade Física:</label>
+            <select id="atividade" required>
+                <option value="" disabled selected>Selecione</option>
+                <option value="sedentario">Nenhuma atividade física</option>
+                <option value="moderado">Atividade física moderada (meia hora de caminhada, natação ou bicicleta, quatro vezes por semana)</option>
+                <option value="intenso">Atividade física intensa (uma hora de corrida, pelo menos quatro vezes por semana)</option>
+            </select>
+            <button onclick="calcularTMB()">Calcular</button>
+        </div>
+        <div class="tmb-result" id="tmb-result" style="display: none;">
+            <h3>Resultado</h3>
+            <p>Taxa de Metabolismo Basal (TMB): <span id="tmb-value"></span> calorias</p>
+            <p>Necessidade Diária de Calorias (NDC):</p>
+            <p>Sem atividade física: <span id="ndc-sedentario"></span> calorias</p>
+            <p>Atividade física moderada: <span id="ndc-moderado"></span> calorias</p>
+            <p>Atividade física intensa: <span id="ndc-intenso"></span> calorias</p>
         </div>
     </section>
 
@@ -592,6 +719,19 @@
             duration: 1
         });
 
+        // Calculadora TMB Section Animation
+        gsap.from('.calculadora-tmb h2', {
+            scrollTrigger: {
+                trigger: '.calculadora-tmb',
+                start: 'top 80%',
+                end: 'top 20%',
+                scrub: 1
+            },
+            opacity: 0,
+            y: 50,
+            duration: 1
+        });
+
         // Treino Cards Animation
         const treinoCards = document.querySelectorAll('.treino-card');
         const observerOptions = {
@@ -655,7 +795,9 @@
 
             modal.style.display = 'flex';
             gsap.fromTo(
-                modal,
+                modal
+
+,
                 { opacity: 0 },
                 { opacity: 1, duration: 0.5, ease: 'power2.in' }
             );
@@ -750,6 +892,53 @@
             console.error('Filter buttons not found');
         }
 
+        // TMB Calculator Functionality
+        function calcularTMB() {
+            const peso = parseFloat(document.getElementById('peso').value);
+            const altura = parseFloat(document.getElementById('altura').value);
+            const idade = parseInt(document.getElementById('idade').value);
+            const sexo = document.getElementById('sexo').value;
+            const atividade = document.getElementById('atividade').value;
+
+            // Validação
+            if (!peso || !altura || !idade || !sexo || !atividade) {
+                alert('Por favor, preencha todos os campos.');
+                return;
+            }
+
+            // Cálculo da TMB (Harris-Benedict)
+            let tmb;
+            if (sexo === 'masculino') {
+                tmb = 88.362 + (13.397 * peso) + (4.799 * altura) - (5.677 * idade);
+            } else {
+                tmb = 447.593 + (9.247 * peso) + (3.098 * altura) - (4.330 * idade);
+            }
+
+            // Arredondar TMB
+            tmb = Math.round(tmb);
+
+            // Cálculo da NDC com base no nível de atividade
+            const ndcSedentario = Math.round(tmb * 1.2);
+            const ndcModerado = Math.round(tmb * 1.375);
+            const ndcIntenso = Math.round(tmb * 1.55);
+
+            // Exibir resultados
+            document.getElementById('tmb-value').textContent = tmb.toFixed(2);
+            document.getElementById('ndc-sedentario').textContent = ndcSedentario.toFixed(2);
+            document.getElementById('ndc-moderado').textContent = ndcModerado.toFixed(2);
+            document.getElementById('ndc-intenso').textContent = ndcIntenso.toFixed(2);
+
+            const tmbResult = document.getElementById('tmb-result');
+            tmbResult.style.display = 'block';
+
+            // Animação do resultado
+            gsap.fromTo(
+                tmbResult,
+                { opacity: 0, y: 20 },
+                { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }
+            );
+        }
+
         // Registrar o Service Worker para funcionalidade offline
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
@@ -785,5 +974,6 @@
             });
         }
     </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'93c083915f70bae0',t:'MTc0NjYxODc3NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
 </body>
 </html>
