@@ -79,10 +79,10 @@ Tá tudo liberado sob a [MIT License](LICENSE) - dá uma olhada no arquivo `LICE
 
 ## Fala comigo! 📩
 
-- **Criador**: [Orick Max](https://www.instagram.com/orickmax) 😎
-- **E-mail**: seu-email@exemplo.com
-- **GitHub**: [seu-usuario](https://github.com/seu-usuario)
+- **Criador**: [ORICKMAX](https://www.instagram.com/orickmax) 😎
+- **E-mail**: contatohenriquem2022@gmail.com
+- **GitHub**: [@orickmaxx](https://github.com/orickmaxx)
 
 ---
 
-**Valeu, malhação!** 🙌 Agradecimentos pra galera que testa e melhora o GYMHUB! 💥
+**Valeu, Bom Treino!** 🙌 Agradecimentos pra galera que testa e melhora o GYMHUB! 💥
