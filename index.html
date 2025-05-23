@@ -7,7 +7,7 @@
     <meta name="keywords" content="treino, fitness, hipertrofia, musculação, off-season">
     <meta property="og:title" content="GYMHUB - OFF SEASON">
     <meta property="og:description" content="Treinos old school para alcançar seus objetivos.">
-    <meta property="og:image" content="/gymhub/imagens/logo.png">
+    <meta property="og:image" content="/imagens/logo.png">
     <meta property="og:url" content="https://orickmaxx.github.io/gymhub/">
     <title>GYMHUB - Treinos para Hipertrofia</title>
     <link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@400;700&display=swap" rel="stylesheet">
@@ -16,7 +16,7 @@
     <!-- Font Awesome para o ícone do Instagram -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Adicionando o manifesto para o PWA -->
-    <link rel="manifest" href="/gymhub/manifest.json">
+    <link rel="manifest" href="/manifest.json">
     <!-- Meta tags para melhor integração com dispositivos móveis -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -507,13 +507,13 @@
 </head>
 <body>
     <video id="background-video" autoplay loop muted playsinline preload="auto">
-        <source src="/gymhub/videos/fundo2.mp4" type="video/mp4">
+        <source src="/videos/fundo2.mp4" type="video/mp4">
         Seu navegador não suporta a tag de vídeo.
     </video>
 
     <header>
         <div class="logo-container">
-            <img src="/gymhub/imagens/logo.png" alt="OFF-SEASON ALLDAY Logo" loading="lazy">
+            <img src="/imagens/logo.png" alt="OFF-SEASON ALLDAY Logo" loading="lazy">
             <span>By <a href="https://www.instagram.com/orickmax" target="_blank">@orickmax</a></span>
         </div>
         <nav>
@@ -526,7 +526,7 @@
 
     <section class="hero" id="home">
         <div class="hero-content">
-            <img src="/gymhub/imagens/logo.png" alt="OFF-SEASON ALLDAY Logo" loading="lazy">
+            <img src="/imagens/logo.png" alt="OFF-SEASON ALLDAY Logo" loading="lazy">
             <a href="#treinos">Ver Treinos</a>
         </div>
     </section>
@@ -542,28 +542,28 @@
         </div>
         <div class="treinos-grid">
             <div class="treino-card" onclick="openModal('Treino A - PEITO/OMBRO')">
-                <img src="/gymhub/imagens/A.png" alt="A - Peito" loading="lazy">
+                <img src="/imagens/A.png" alt="A - Peito" loading="lazy">
                 <div class="treino-card-content">
                     <h3>A - PEITO e OMBRO</h3>
                     <p>Foco em peito com técnicas old school para hipertrofia.</p>
                 </div>
             </div>
             <div class="treino-card" onclick="openModal('Treino B - COSTAS')">
-                <img src="/gymhub/imagens/B.png" alt="B - Costas" loading="lazy">
+                <img src="/imagens/B.png" alt="B - Costas" loading="lazy">
                 <div class="treino-card-content">
                     <h3>B - COSTAS e ANTEBRAÇO</h3>
                     <p>Treino de costas old school para largura e densidade.</p>
                 </div>
             </div>
             <div class="treino-card" onclick="openModal('Treino C - BÍCEPS/TRÍCEPS')">
-                <img src="/gymhub/imagens/C.png" alt="C - Bíceps e Tríceps" loading="lazy">
+                <img src="/imagens/C.png" alt="C - Bíceps e Tríceps" loading="lazy">
                 <div class="treino-card-content">
                     <h3>C - BÍCEPS e TRÍCEPS</h3>
                     <p>Foco em braços com técnicas old school, bi-sets e piramidal para biceps e triceps.</p>
                 </div>
             </div>
             <div class="treino-card" onclick="openModal('Treino D - LEG DAY💀')">
-                <img src="/gymhub/imagens/D.png" alt="D - Full Body" loading="lazy">
+                <img src="/imagens/D.png" alt="D - Full Body" loading="lazy">
                 <div class="treino-card-content">
                     <h3>D - LEG DAY💀</h3>
                     <p>LEG DAY para resistência e condicionamento geral de pernas.</p>
@@ -947,7 +947,7 @@
         // Registrar o Service Worker para funcionalidade offline
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/gymhub/service-worker.js')
+                navigator.serviceWorker.register('/service-worker.js')
                     .then(registration => {
                         console.log('Service Worker registrado com sucesso:', registration);
                     })
