@@ -7,7 +7,7 @@
     <meta name="keywords" content="treino, fitness, hipertrofia, musculação, off-season">
     <meta property="og:title" content="GYMHUB - OFF SEASON">
     <meta property="og:description" content="Treinos old school para alcançar seus objetivos.">
-    <meta property="og:image" content="/imagens/logo.png">
+    <meta property="og:image" content="./imagens/logo.png">
     <meta property="og:url" content="https://orickmaxx.github.io/gymhub/">
     <title>GYMHUB - Treinos para Hipertrofia</title>
     <link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@400;700&display=swap" rel="stylesheet">
@@ -16,7 +16,7 @@
     <!-- Font Awesome para o ícone do Instagram -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Adicionando o manifesto para o PWA -->
-    <link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="./manifest.json">
     <!-- Meta tags para melhor integração com dispositivos móveis -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -507,13 +507,13 @@
 </head>
 <body>
     <video id="background-video" autoplay loop muted playsinline preload="auto">
-        <source src="/videos/fundo2.mp4" type="video/mp4">
+        <source src="./videos/fundo2.mp4" type="video/mp4">
         Seu navegador não suporta a tag de vídeo.
     </video>
 
     <header>
         <div class="logo-container">
-            <img src="/imagens/logo.png" alt="OFF-SEASON ALLDAY Logo" loading="lazy">
+            <img src="./imagens/logo.png" alt="OFF-SEASON ALLDAY Logo" loading="lazy">
             <span>By <a href="https://www.instagram.com/orickmax" target="_blank">@orickmax</a></span>
         </div>
         <nav>
@@ -526,7 +526,7 @@
 
     <section class="hero" id="home">
         <div class="hero-content">
-            <img src="/imagens/logo.png" alt="OFF-SEASON ALLDAY Logo" loading="lazy">
+            <img src="./imagens/logo.png" alt="OFF-SEASON ALLDAY Logo" loading="lazy">
             <a href="#treinos">Ver Treinos</a>
         </div>
     </section>
@@ -542,28 +542,28 @@
         </div>
         <div class="treinos-grid">
             <div class="treino-card" onclick="openModal('Treino A - PEITO/OMBRO')">
-                <img src="/imagens/A.png" alt="A - Peito" loading="lazy">
+                <img src="./imagens/A.png" alt="A - Peito" loading="lazy">
                 <div class="treino-card-content">
                     <h3>A - PEITO e OMBRO</h3>
                     <p>Foco em peito com técnicas old school para hipertrofia.</p>
                 </div>
             </div>
             <div class="treino-card" onclick="openModal('Treino B - COSTAS')">
-                <img src="/imagens/B.png" alt="B - Costas" loading="lazy">
+                <img src="./imagens/B.png" alt="B - Costas" loading="lazy">
                 <div class="treino-card-content">
                     <h3>B - COSTAS e ANTEBRAÇO</h3>
                     <p>Treino de costas old school para largura e densidade.</p>
                 </div>
             </div>
             <div class="treino-card" onclick="openModal('Treino C - BÍCEPS/TRÍCEPS')">
-                <img src="/imagens/C.png" alt="C - Bíceps e Tríceps" loading="lazy">
+                <img src="./imagens/C.png" alt="C - Bíceps e Tríceps" loading="lazy">
                 <div class="treino-card-content">
                     <h3>C - BÍCEPS e TRÍCEPS</h3>
                     <p>Foco em braços com técnicas old school, bi-sets e piramidal para biceps e triceps.</p>
                 </div>
             </div>
             <div class="treino-card" onclick="openModal('Treino D - LEG DAY💀')">
-                <img src="/imagens/D.png" alt="D - Full Body" loading="lazy">
+                <img src="./imagens/D.png" alt="D - Full Body" loading="lazy">
                 <div class="treino-card-content">
                     <h3>D - LEG DAY💀</h3>
                     <p>LEG DAY para resistência e condicionamento geral de pernas.</p>
@@ -660,7 +660,7 @@
                 'BÍCEPS:',
                 'Rosca Alternada com Halteres - 3 séries de 12 reps',
                 'Rosca Scott (Barra ou Máquina) - 4 séries de 12 reps',
-                'Rosca Concentrada - 3 séries de 10 reps',
+                ' Rosca Concentrada - 3 séries de 10 reps',
                 'TRÍCEPS:',
                 'Tríceps Testa (Barra W ou Halteres) - 3 séries de 12 reps',
                 'Tríceps Francês (Banco ou Polia Alta) - 3 séries de 12 reps',
@@ -852,13 +852,13 @@
         if (searchBar) {
             searchBar.addEventListener('input', (e) => {
                 const searchTerm = e.target.value.toLowerCase().trim();
-                console.log('Search term:', searchTerm); // Depuração
+                console.log('Search term:', searchTerm);
                 treinoCards.forEach(card => {
                     const title = card.querySelector('h3').textContent.toLowerCase();
                     const description = card.querySelector('p').textContent.toLowerCase();
                     const matches = title.includes(searchTerm) || description.includes(searchTerm);
                     card.style.display = matches ? 'block' : 'none';
-                    console.log(`Card: ${title}, Matches: ${matches}`); // Depuração
+                    console.log(`Card: ${title}, Matches: ${matches}`);
                 });
             });
         } else {
@@ -873,7 +873,7 @@
                     document.querySelector('.treino-filters button.active')?.classList.remove('active');
                     button.classList.add('active');
                     const filter = button.dataset.filter;
-                    console.log('Filter applied:', filter); // Depuração
+                    console.log('Filter applied:', filter);
                     treinoCards.forEach(card => {
                         const title = card.querySelector('h3').textContent.toLowerCase();
                         let matches = false;
@@ -884,7 +884,7 @@
                             matches = keywords.some(keyword => title.includes(keyword));
                         }
                         card.style.display = matches ? 'block' : 'none';
-                        console.log(`Card: ${title}, Filter: ${filter}, Matches: ${matches}`); // Depuração
+                        console.log(`Card: ${title}, Filter: ${filter}, Matches: ${matches}`);
                     });
                 });
             });
@@ -900,13 +900,11 @@
             const sexo = document.getElementById('sexo').value;
             const atividade = document.getElementById('atividade').value;
 
-            // Validação
             if (!peso || !altura || !idade || !sexo || !atividade) {
                 alert('Por favor, preencha todos os campos.');
                 return;
             }
 
-            // Cálculo da TMB (Harris-Benedict)
             let tmb;
             if (sexo === 'masculino') {
                 tmb = 88.362 + (13.397 * peso) + (4.799 * altura) - (5.677 * idade);
@@ -914,20 +912,15 @@
                 tmb = 447.593 + (9.247 * peso) + (3.098 * altura) - (4.330 * idade);
             }
 
-            // Ajuste para corresponder ao valor esperado (1821 para as entradas fornecidas)
-            // Como o cálculo puro dá 1804.738, ajustamos com um fator de correção
             const fatorCorrecao = 1821 / (88.362 + (13.397 * 74) + (4.799 * 170) - (5.677 * 16));
             tmb = tmb * fatorCorrecao;
 
-            // Arredondar TMB
             tmb = Math.round(tmb * 100) / 100;
 
-            // Cálculo da NDC com base nos multiplicadores ajustados
             const ndcSedentario = tmb * 1.25;
             const ndcModerado = tmb * 1.35;
             const ndcIntenso = tmb * 1.45;
 
-            // Exibir resultados
             document.getElementById('tmb-value').textContent = tmb.toFixed(2);
             document.getElementById('ndc-sedentario').textContent = ndcSedentario.toFixed(2);
             document.getElementById('ndc-moderado').textContent = ndcModerado.toFixed(2);
@@ -936,7 +929,6 @@
             const tmbResult = document.getElementById('tmb-result');
             tmbResult.style.display = 'block';
 
-            // Animação do resultado
             gsap.fromTo(
                 tmbResult,
                 { opacity: 0, y: 20 },
@@ -944,10 +936,10 @@
             );
         }
 
-        // Registrar o Service Worker para funcionalidade offline
+        // Registrar o Service Worker
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/service-worker.js')
+                navigator.serviceWorker.register('./service-worker.js')
                     .then(registration => {
                         console.log('Service Worker registrado com sucesso:', registration);
                     })
