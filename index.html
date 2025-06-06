@@ -3,21 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="GYMHUB: Treinos old school para hipertrofia e condicionamento físico. Explore nossos programas de treino!">
-    <meta name="keywords" content="treino, fitness, hipertrofia, musculação, off-season">
-    <meta property="og:title" content="GYMHUB - OFF SEASON">
-    <meta property="og:description" content="Treinos old school para alcançar seus objetivos.">
+    <meta name="description" content="GYMHUB: Planos de treino de baixo volume e alta intensidade, inspirados na era de ouro do fisiculturismo. Calcule sua TMB e comece hoje.">
+    <meta name="keywords" content="treino, fitness, hipertrofia, musculação, off-season, low volume, high intensity, arnold schwarzenegger">
+    <meta property="og:title" content="GYMHUB - Planos de Treino para Hipertrofia">
+    <meta property="og:description" content="Explore nossos planos de treino de baixo volume e alta intensidade.">
     <meta property="og:image" content="./imagens/logo.png">
     <meta property="og:url" content="https://orickmaxx.github.io/gymhub/">
-    <title>GYMHUB - Treinos para Hipertrofia</title>
-    <link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <title>GYMHUB - Planos de Treino para Hipertrofia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&family=Teko:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    <!-- Font Awesome para o ícone do Instagram -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Adicionando o manifesto para o PWA -->
     <link rel="manifest" href="./manifest.json">
-    <!-- Meta tags para melhor integração com dispositivos móveis -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -27,12 +24,13 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-family: 'Teko', sans-serif;
         }
         body {
             color: #FFFFFF;
             background: #000000;
             overflow-x: hidden;
+            scroll-behavior: smooth;
         }
         #background-video {
             position: fixed;
@@ -54,7 +52,8 @@
             z-index: -1;
         }
         header {
-            background: #000000;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
             padding: 10px 20px;
             position: fixed;
             width: 100%;
@@ -77,7 +76,7 @@
             transform: scale(1.1);
         }
         .logo-container span {
-            font-size: 12px;
+            font-size: 14px;
             color: #999999;
             margin-top: 3px;
         }
@@ -97,30 +96,16 @@
             color: #FFFFFF;
             text-decoration: none;
             margin-left: 15px;
-            font-size: 16px;
+            font-size: 20px;
             font-weight: 700;
             text-transform: uppercase;
             padding: 8px 12px;
             border-radius: 5px;
             transition: all 0.3s ease;
         }
-        nav a:hover {
+        nav a:hover, nav a.active {
             background: #F5A623;
             color: #000000;
-        }
-        .search-bar {
-            background: #333333;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 20px;
-            color: #FFFFFF;
-            font-size: 14px;
-            margin-left: 15px;
-            transition: all 0.3s ease;
-        }
-        .search-bar:focus {
-            outline: none;
-            background: #444444;
         }
         .hero {
             height: 100vh;
@@ -145,6 +130,7 @@
             padding: 12px 24px;
             border-radius: 25px;
             text-decoration: none;
+            font-size: 22px;
             font-weight: 700;
             text-transform: uppercase;
             box-shadow: 0 4px 10px rgba(245, 166, 35, 0.5);
@@ -155,43 +141,32 @@
             transform: translateY(-2px);
             box-shadow: 0 6px 15px rgba(245, 166, 35, 0.7);
         }
-        .treinos {
+        .plan-section {
             padding: 80px 20px;
+            border-bottom: 1px solid #222;
         }
-        .treinos h2 {
-            font-size: 36px;
+        .plan-section h2 {
+            font-size: 48px;
             font-weight: 700;
             text-align: center;
             color: #F5A623;
-            margin-bottom: 40px;
+            margin-bottom: 10px;
             text-transform: uppercase;
         }
-        .treino-filters {
+        .plan-section .plan-description {
+            font-family: 'Roboto Condensed', sans-serif;
+            font-size: 18px;
+            color: #CCCCCC;
             text-align: center;
-            margin-bottom: 20px;
-        }
-        .treino-filters button {
-            background: #333333;
-            color: #FFFFFF;
-            border: none;
-            padding: 8px 15px;
-            margin: 0 5px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-        .treino-filters button:hover,
-        .treino-filters button.active {
-            background: #F5A623;
-            color: #000000;
+            max-width: 800px;
+            margin: 0 auto 40px auto;
+            line-height: 1.6;
         }
         .treinos-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 320px));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 25px;
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             justify-content: center;
         }
@@ -202,7 +177,6 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
             cursor: pointer;
-            max-width: 320px;
         }
         .treino-card:hover {
             transform: translateY(-5px) scale(1.03);
@@ -211,7 +185,6 @@
         .treino-card img {
             width: 100%;
             height: 180px;
-            max-height: 180px;
             object-fit: cover;
             border-radius: 10px 10px 0 0;
             transition: transform 0.4s ease;
@@ -220,16 +193,17 @@
             transform: scale(1.05);
         }
         .treino-card-content {
-            padding: 15px;
+            padding: 20px;
         }
         .treino-card-content h3 {
-            font-size: 20px;
+            font-size: 28px;
             font-weight: 700;
             color: #FFFFFF;
             margin-bottom: 8px;
         }
         .treino-card-content p {
-            font-size: 13px;
+            font-family: 'Roboto Condensed', sans-serif;
+            font-size: 16px;
             color: #999999;
             line-height: 1.4;
         }
@@ -252,34 +226,55 @@
             background: #1A1A1A;
             padding: 25px;
             border-radius: 12px;
-            max-width: 500px;
+            max-width: 600px;
             width: 90%;
-            max-height: 80vh;
+            max-height: 85vh;
             overflow-y: auto;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            border: 1px solid #333;
         }
-        .modal-content h3 {
-            font-size: 24px;
+        .modal-header h3 {
+            font-size: 32px;
             color: #F5A623;
-            margin-bottom: 15px;
+            margin-bottom: 5px;
+        }
+         .modal-header .plan-title {
+            font-family: 'Roboto Condensed', sans-serif;
+            font-size: 16px;
+            color: #999;
+            margin-bottom: 20px;
+        }
+        .modal-content ul {
+            list-style: none;
         }
         .modal-content ul li {
-            font-size: 15px;
+            font-family: 'Roboto Condensed', sans-serif;
+            font-size: 17px;
             color: #FFFFFF;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             line-height: 1.5;
+            padding-left: 20px;
+            position: relative;
+        }
+        .modal-content ul li::before {
+            content: '✓';
+            color: #F5A623;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
         }
         .close-modal {
             position: absolute;
             top: 15px;
             right: 20px;
-            font-size: 28px;
+            font-size: 32px;
             cursor: pointer;
             color: #999999;
-            transition: color 0.3s ease;
+            transition: color 0.3s ease, transform 0.3s ease;
         }
         .close-modal:hover {
             color: #F5A623;
+            transform: rotate(90deg);
         }
         .copy-btn {
             background: #F5A623;
@@ -288,31 +283,32 @@
             padding: 10px 20px;
             border-radius: 25px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 18px;
             font-weight: 700;
             text-transform: uppercase;
             transition: all 0.3s ease;
+            margin-top: 20px;
         }
         .copy-btn:hover {
             background: #FFFFFF;
             transform: translateY(-2px);
             box-shadow: 0 6px 15px rgba(245, 166, 35, 0.7);
         }
-        /* Estilo da seção de calculadora TMB */
         .calculadora-tmb {
             padding: 80px 20px;
             text-align: center;
         }
         .calculadora-tmb h2 {
-            font-size: 36px;
+            font-size: 48px;
             font-weight: 700;
             color: #F5A623;
             margin-bottom: 20px;
             text-transform: uppercase;
         }
         .calculadora-tmb p {
-            font-size: 16px;
-            color: #999999;
+            font-family: 'Roboto Condensed', sans-serif;
+            font-size: 18px;
+            color: #CCCCCC;
             margin-bottom: 30px;
         }
         .tmb-form {
@@ -325,10 +321,11 @@
         }
         .tmb-form label {
             display: block;
-            font-size: 14px;
+            font-size: 16px;
             color: #FFFFFF;
             margin-bottom: 5px;
             text-align: left;
+            font-family: 'Roboto Condensed', sans-serif;
         }
         .tmb-form input,
         .tmb-form select {
@@ -339,7 +336,8 @@
             border: none;
             border-radius: 5px;
             color: #FFFFFF;
-            font-size: 14px;
+            font-size: 16px;
+            font-family: 'Roboto Condensed', sans-serif;
         }
         .tmb-form input:focus,
         .tmb-form select:focus {
@@ -352,7 +350,7 @@
             border: none;
             padding: 12px 24px;
             border-radius: 25px;
-            font-size: 16px;
+            font-size: 20px;
             font-weight: 700;
             text-transform: uppercase;
             cursor: pointer;
@@ -370,16 +368,18 @@
             border-radius: 10px;
             max-width: 500px;
             margin: 30px auto 0;
+            text-align: left;
         }
         .tmb-result h3 {
-            font-size: 20px;
+            font-size: 24px;
             color: #F5A623;
             margin-bottom: 15px;
         }
         .tmb-result p {
-            font-size: 16px;
+            font-size: 18px;
             color: #FFFFFF;
             margin-bottom: 10px;
+            font-family: 'Roboto Condensed', sans-serif;
         }
         .tmb-result p span {
             color: #F5A623;
@@ -389,11 +389,10 @@
             background: #000000;
             padding: 15px;
             text-align: center;
-            font-size: 13px;
+            font-size: 14px;
             color: #999999;
             border-top: 1px solid #333333;
         }
-        /* Estilo do botão de instalação do PWA */
         #install-prompt {
             position: fixed;
             bottom: 20px;
@@ -407,7 +406,7 @@
             gap: 10px;
             box-shadow: 0 4px 10px rgba(245, 166, 35, 0.5);
             z-index: 1000;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 700;
             text-transform: uppercase;
         }
@@ -423,12 +422,6 @@
             text-transform: uppercase;
             transition: all 0.3s ease;
         }
-        #install-prompt button:hover {
-            background: #E0E0E0;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(245, 166, 35, 0.7);
-        }
-        /* Estilo do botão flutuante do Instagram */
         .instagram-button {
             position: fixed;
             bottom: 20px;
@@ -458,49 +451,19 @@
             .hero-content img {
                 width: 250px;
             }
-            .logo-container img {
-                width: 80px;
+            header {
+                flex-direction: column;
+                padding: 10px;
+            }
+            .logo-container {
+                margin-bottom: 10px;
             }
             nav a {
-                font-size: 14px;
-                padding: 6px 10px;
+                font-size: 16px;
+                margin: 0 5px;
             }
-            .search-bar {
-                width: 120px;
-                font-size: 12px;
-            }
-            .treinos h2,
-            .calculadora-tmb h2 {
-                font-size: 28px;
-            }
-            .treino-card img {
-                height: 150px;
-                max-height: 150px;
-            }
-            .treinos-grid {
-                grid-template-columns: repeat(auto-fill, minmax(280px, 320px));
-            }
-            .tmb-form {
-                padding: 20px;
-            }
-            #install-prompt {
-                bottom: 10px;
-                right: 10px;
-                padding: 8px 15px;
-                font-size: 12px;
-            }
-            #install-prompt button {
-                padding: 6px 10px;
-                font-size: 12px;
-            }
-            .instagram-button {
-                width: 40px;
-                height: 40px;
-                bottom: 10px;
-                left: 10px;
-            }
-            .instagram-button i {
-                font-size: 20px;
+            .plan-section h2, .calculadora-tmb h2 {
+                font-size: 36px;
             }
         }
     </style>
@@ -513,62 +476,37 @@
 
     <header>
         <div class="logo-container">
-            <img src="./imagens/logo.png" alt="OFF-SEASON ALLDAY Logo" loading="lazy">
+            <img src="./imagens/logo.png" alt="GYMHUB Logo" loading="lazy">
             <span>By <a href="https://www.instagram.com/orickmax" target="_blank">@orickmax</a></span>
         </div>
         <nav>
             <a href="#home">Home</a>
-            <a href="#treinos">Treinos</a>
+            <a href="#low-volume">Baixo Volume</a>
+            <a href="#high-intensity">Alta Intensidade</a>
             <a href="#calculadora-tmb">TMB</a>
-            <input type="search" placeholder="Buscar treinos..." class="search-bar" aria-label="Buscar treinos">
         </nav>
     </header>
 
     <section class="hero" id="home">
         <div class="hero-content">
-            <img src="./imagens/logo.png" alt="OFF-SEASON ALLDAY Logo" loading="lazy">
-            <a href="#treinos">Ver Treinos</a>
+            <img src="./imagens/logo.png" alt="GYMHUB Logo" loading="lazy">
+            <a href="#planos">Ver Planos de Treino</a>
         </div>
     </section>
 
-    <section class="treinos" id="treinos">
-        <h2>OFF-SEASON ALLDAY</h2>
-        <div class="treino-filters">
-            <button data-filter="all" class="active">Todos</button>
-            <button data-filter="peito">Peito</button>
-            <button data-filter="costas">Costas</button>
-            <button data-filter="bracos">Braços</button>
-            <button data-filter="pernas">Pernas</button>
+    <section id="planos">
+        <div class="plan-section" id="low-volume">
+            <h2>Plano de Baixo Volume</h2>
+            <p class="plan-description">Foco em eficiência máxima para hipertrofia com menos exercícios, mas com intensidade total e progressão de carga constante. Ideal para quem busca resultados sólidos com otimização do tempo na academia.</p>
+            <div class="treinos-grid" id="low-volume-grid">
+                </div>
         </div>
-        <div class="treinos-grid">
-            <div class="treino-card" onclick="openModal('Treino A - PEITO/OMBRO')">
-                <img src="./imagens/A.png" alt="A - Peito" loading="lazy">
-                <div class="treino-card-content">
-                    <h3>A - PEITO e OMBRO</h3>
-                    <p>Foco em peito com técnicas old school para hipertrofia.</p>
+
+        <div class="plan-section" id="high-intensity">
+            <h2>Plano de Alta Intensidade</h2>
+            <p class="plan-description">Inspirado na filosofia de Arnold Schwarzenegger, este plano de alto volume e alta intensidade utiliza técnicas avançadas como Supersets e Drop Sets para levar seus músculos a um novo nível de estímulo. Recomendado para praticantes avançados.</p>
+            <div class="treinos-grid" id="high-intensity-grid">
                 </div>
-            </div>
-            <div class="treino-card" onclick="openModal('Treino B - COSTAS')">
-                <img src="./imagens/B.png" alt="B - Costas" loading="lazy">
-                <div class="treino-card-content">
-                    <h3>B - COSTAS e ANTEBRAÇO</h3>
-                    <p>Treino de costas old school para largura e densidade.</p>
-                </div>
-            </div>
-            <div class="treino-card" onclick="openModal('Treino C - BÍCEPS/TRÍCEPS')">
-                <img src="./imagens/C.png" alt="C - Bíceps e Tríceps" loading="lazy">
-                <div class="treino-card-content">
-                    <h3>C - BÍCEPS e TRÍCEPS</h3>
-                    <p>Foco em braços com técnicas old school, bi-sets e piramidal para biceps e triceps.</p>
-                </div>
-            </div>
-            <div class="treino-card" onclick="openModal('Treino D - LEG DAY💀')">
-                <img src="./imagens/D.png" alt="D - Full Body" loading="lazy">
-                <div class="treino-card-content">
-                    <h3>D - LEG DAY💀</h3>
-                    <p>LEG DAY para resistência e condicionamento geral de pernas.</p>
-                </div>
-            </div>
         </div>
     </section>
 
@@ -591,32 +529,32 @@
             <label for="atividade">Nível de Atividade Física:</label>
             <select id="atividade" required>
                 <option value="" disabled selected>Selecione</option>
-                <option value="sedentario">Nenhuma atividade física</option>
-                <option value="moderado">Atividade física moderada (meia hora de caminhada, natação ou bicicleta, quatro vezes por semana)</option>
-                <option value="intenso">Atividade física intensa (uma hora de corrida, pelo menos quatro vezes por semana)</option>
+                <option value="sedentario">Sedentário (pouco ou nenhum exercício)</option>
+                <option value="moderado">Levemente Ativo (1-3 dias/semana)</option>
+                <option value="intenso">Moderadamente Ativo (3-5 dias/semana)</option>
+                <option value="muito_intenso">Muito Ativo (6-7 dias/semana)</option>
             </select>
             <button onclick="calcularTMB()">Calcular</button>
         </div>
         <div class="tmb-result" id="tmb-result" style="display: none;">
             <h3>Resultado</h3>
             <p>Taxa de Metabolismo Basal (TMB): <span id="tmb-value"></span> calorias</p>
-            <p>Necessidade Diária de Calorias (NDC):</p>
-            <p>Sem atividade física: <span id="ndc-sedentario"></span> calorias</p>
-            <p>Atividade física moderada: <span id="ndc-moderado"></span> calorias</p>
-            <p>Atividade física intensa: <span id="ndc-intenso"></span> calorias</p>
+            <p>Sua Necessidade Diária de Calorias (NDC) é: <span id="ndc-value"></span> calorias</p>
         </div>
     </section>
 
-    <div class="modal" id="modal" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
+    <div class="modal" id="modal" role="dialog" aria-hidden="true">
         <div class="modal-content" tabindex="-1">
             <span class="close-modal" onclick="closeModal()" aria-label="Fechar modal">×</span>
-            <h3 id="modal-title"></h3>
+            <div class="modal-header">
+                <h3 id="modal-title"></h3>
+                <p class="plan-title" id="plan-title"></p>
+            </div>
             <ul id="modal-exercicios"></ul>
             <button class="copy-btn" onclick="copyTreino()">Copiar Treino</button>
         </div>
     </div>
 
-    <!-- Botão flutuante do Instagram -->
     <a href="https://www.instagram.com/gymhub.allday/" target="_blank" class="instagram-button" aria-label="Siga-nos no Instagram">
         <i class="fab fa-instagram"></i>
     </a>
@@ -625,187 +563,215 @@
         <p>© 2025 GYMHUB - ALL DAY. Todos os direitos reservados.</p>
     </footer>
 
-    <!-- Botão de instalação do PWA -->
     <div id="install-prompt">
-        Instale o GYMHUB App para acesso offline!
+        Instale o GYMHUB para acesso rápido!
         <button onclick="promptInstall()">Instalar</button>
     </div>
 
     <script>
-        // Dados dos treinos
-        const treinos = {
-            'Treino A - PEITO/OMBRO': [
-                'Cross Over na Polia Alta - 2x12 reps, 2x6-8 reps',
-                'Cross Over na Polia Baixa - 2x12 reps, 2x6-8 reps',
-                'Crucifixo no Banco Inclinado - 1x12 reps, 2x6-8 reps',
-                'Supino Reto (Barra) - 2x12 reps, 2x6-8 reps',
-                'Supino Declinado (Barra) - 2x12 reps, 2x6-8 reps',
-                'Supino Inclinado com Halteres - 1x12 reps, 2x6-8 reps',
-                'Fly (Peck Deck ou Máquina) - 3 séries de 6-8 reps',
-                '--- Ombro ---'
-            ],
-            'Treino B - COSTAS': [
-                'Contração Serrátil na Polia - 3 séries de 12-15 reps',
-                'Pulley Frente - 2x12 reps, 2x6-8 reps',
-                'Puxada com Triângulo (Pegada Neutra) - 1x12 reps, 2x6-8 reps',
-                'Remada Curvada (Barra ou Halter) - 2x12 reps, 2x6-8 reps',
-                'Remada Estilo Ronnie Coleman - 3 séries de 6-8 reps',
-                'Remada Unilateral com Halter (Serrote) - 2x12 reps, 2x6-8 reps'
-            ],
-            'Treino C - BÍCEPS/TRÍCEPS': [
-                'Aquecimento – Série Combinada (Bi-Set com Pirâmide)',
-                'Bíceps no Cabo (Piramidal) - 2 séries, aumentando carga e reduzindo reps',
-                'Tríceps na Polia com Triângulo (Piramidal) - 2 séries, aumentando carga e reduzindo reps',
-                '--- Treino Principal ---',
-                'BÍCEPS:',
-                'Rosca Alternada com Halteres - 3 séries de 12 reps',
-                'Rosca Scott (Barra ou Máquina) - 4 séries de 12 reps',
-                ' Rosca Concentrada - 3 séries de 10 reps',
-                'TRÍCEPS:',
-                'Tríceps Testa (Barra W ou Halteres) - 3 séries de 12 reps',
-                'Tríceps Francês (Banco ou Polia Alta) - 3 séries de 12 reps',
-                'Tríceps Invertido na Polia - 3 séries de 10 reps (com 3 segundos de isometria no final)',
-                '--- Finalização ---',
-                'Flexões - 1 série de 20+ reps (falha)'
-            ],
-            'Treino D - LEG DAY💀': [
-                'Cadeira Extensora - 2x12 2x6-8',
-                'Agachamento Smith - 2x12 2x6-8',
-                'Leg Press - 4x6-8',
-                'Cadeira Flexora - 2x12 2x6-8',
-                'Cadeira Abdutora - 4x15'
-            ]
-        };
-
-        // Mapeamento de categorias para correspondência com os títulos dos treinos
-        const categoryMap = {
-            'peito': ['peito', 'ombro'],
-            'costas': ['costas'],
-            'bracos': ['bíceps', 'tríceps'],
-            'pernas': ['leg', 'day']
-        };
-
-        // GSAP Animations
-        gsap.registerPlugin(ScrollTrigger);
-
-        // Hero Section Animation
-        window.addEventListener('load', () => {
-            gsap.fromTo(
-                '.hero-content',
-                { opacity: 0, y: 50, scale: 0.95 },
-                { opacity: 1, y: 0, scale: 1, duration: 1.2, ease: 'power3.out' }
-            );
-            gsap.fromTo(
-                '.hero-content a',
-                { opacity: 0, scale: 0.8 },
-                { opacity: 1, scale: 1, duration: 1, delay: 0.5, ease: 'elastic.out(1, 0.5)' }
-            );
-            // Animação do botão do Instagram
-            gsap.fromTo(
-                '.instagram-button',
-                { opacity: 0, scale: 0 },
-                { opacity: 1, scale: 1, duration: 0.8, delay: 1, ease: 'elastic.out(1, 0.5)' }
-            );
-        });
-
-        // Treinos Section Animation
-        gsap.from('.treinos h2', {
-            scrollTrigger: {
-                trigger: '.treinos',
-                start: 'top 80%',
-                end: 'top 20%',
-                scrub: 1
-            },
-            opacity: 0,
-            y: 50,
-            duration: 1
-        });
-
-        // Calculadora TMB Section Animation
-        gsap.from('.calculadora-tmb h2', {
-            scrollTrigger: {
-                trigger: '.calculadora-tmb',
-                start: 'top 80%',
-                end: 'top 20%',
-                scrub: 1
-            },
-            opacity: 0,
-            y: 50,
-            duration: 1
-        });
-
-        // Treino Cards Animation
-        const treinoCards = document.querySelectorAll('.treino-card');
-        const observerOptions = {
-            root: null,
-            threshold: 0.1
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    gsap.fromTo(
-                        entry.target,
-                        { opacity: 0, y: 50, scale: 0.9 },
-                        { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: 'power2.out' }
-                    );
+        // --- ESTRUTURA DE DADOS DOS TREINOS ---
+        const planosDeTreino = {
+            'low-volume': {
+                titulo: 'Plano de Baixo Volume (Foco em Eficiência)',
+                treinos: {
+                    'Dia 1: Empurrar': {
+                        descricao: 'Foco em massa e força para peito, ombros e tríceps com máxima eficiência.',
+                        exercicios: [
+                            'Supino Reto com Barra: 4 séries de 6-10 reps',
+                            'Desenvolvimento Militar com Halteres (sentado): 4 séries de 6-10 reps',
+                            'Supino Inclinado com Barra: 3 séries de 8-12 reps',
+                            'Elevação Lateral com Halteres: 3 séries de 10-15 reps (execução controlada)',
+                            'Mergulho nas Barras Paralelas (Dips): 3 séries até a falha'
+                        ]
+                    },
+                    'Dia 2: Puxar e Antebraço': {
+                        descricao: 'Construção de largura e espessura nas costas, finalizando com bíceps e antebraço.',
+                        exercicios: [
+                            'Levantamento Terra (Stiff ou Convencional): 4 séries de 5-8 reps',
+                            'Barra Fixa (pegada aberta): 3 séries até a falha',
+                            'Remada Curvada com Barra: 4 séries de 6-10 reps',
+                            'Rosca Direta com Barra: 3 séries de 8-12 reps',
+                            'Rosca de Punho com Barra: 3 séries de 15-20 reps',
+                            'Rosca de Punho Invertida: 3 séries de 15-20 reps'
+                        ]
+                    },
+                    'Dia 3: Pernas e Panturrilhas': {
+                        descricao: 'Treino brutal com foco em quadríceps e estímulo anabólico geral.',
+                        exercicios: [
+                            'Agachamento Livre com Barra: 4 séries de 6-10 reps',
+                            'Leg Press: 4 séries de 8-12 reps',
+                            'Passada à Frente (Afundo) com Halteres: 3 séries de 10-12 reps por perna',
+                            'Cadeira Extensora: 3 séries de 12-15 reps (com contração de pico)',
+                            'Panturrilhas em Pé: 5 séries de 15-20 reps'
+                        ]
+                    },
+                    'Dia 4: Recuperação Ativa e Abdômen': {
+                        descricao: 'Acelerar a recuperação, queimar calorias e fortalecer o core.',
+                        exercicios: [
+                            'Cardio Leve (Caminhada inclinada ou bicicleta): 30-45 minutos',
+                            '--- Circuito de Abdômen (3-4 voltas) ---',
+                            'Elevação de Pernas Suspenso: 15-20 reps',
+                            'Abdominal no Cabo (Ajoelhado): 15-20 reps',
+                            'Prancha: Segurar até a falha'
+                        ]
+                    },
+                     'Dia 5: Empurrar (Variação)': {
+                        descricao: 'Chocar os músculos com diferentes ângulos e foco em força.',
+                        exercicios: [
+                            'Supino Inclinado com Halteres: 4 séries de 6-10 reps',
+                            'Desenvolvimento com Barra (sentado): 4 séries de 6-10 reps',
+                            'Cross Over na Polia Alta: 3 séries de 10-15 reps',
+                            'Elevação Frontal com Barra: 3 séries de 10-12 reps',
+                            'Tríceps Testa com Barra W: 4 séries de 8-12 reps (com Drop Set na última série)'
+                        ]
+                    },
+                     'Dia 6: Puxar e Posterior': {
+                        descricao: 'Foco em densidade muscular e na cadeia posterior (costas e isquiotibiais).',
+                        exercicios: [
+                            'Puxada Frontal com Pegada Aberta: 4 séries de 8-12 reps',
+                            'Remada na Barra T: 4 séries de 8-12 reps',
+                            'Mesa Flexora: 4 séries de 10-15 reps',
+                            'Levantamento Terra Romeno (Stiff): 4 séries de 8-12 reps',
+                            'Rosca Scott com Barra W: 3 séries de 8-12 reps'
+                        ]
+                    }
                 }
-            });
-        }, observerOptions);
+            },
+            'high-intensity': {
+                titulo: 'Plano de Alta Intensidade (Estilo Arnold)',
+                treinos: {
+                    'Treino A - Peito e Ombro': {
+                        descricao: 'Foco em peito com técnicas old school para hipertrofia.',
+                        exercicios: [
+                            '--- SUPER-SET 1 ---',
+                            'A1: Supino Reto com Barra: 4 séries de 6-10 reps',
+                            'A2: Supino Inclinado com Halteres: 4 séries de 8-12 reps (sem descanso após A1)',
+                            '--- SUPER-SET 2 ---',
+                            'B1: Cross Over na Polia Alta: 3 séries de 10-15 reps',
+                            'B2: Fly na Máquina (Peck Deck): 3 séries de 10-15 reps (sem descanso após B1)',
+                            '--- OMBROS ---',
+                            'Desenvolvimento Militar com Barra (sentado): 4 séries de 6-10 reps',
+                            'Elevação Lateral (com Drop Set): 3 séries de 8-10 reps + reps até a falha com peso menor'
+                        ]
+                    },
+                    'Treino B - Costas': {
+                        descricao: 'Treino de costas old school para largura e densidade.',
+                        exercicios: [
+                            'Remada Curvada com Barra (Estilo Pendlay): 4 séries de 6-10 reps',
+                            '--- SUPER-SET ---',
+                            'A1: Pulley Frente (Puxada Aberta): 4 séries de 8-12 reps',
+                            'A2: Puxada com Triângulo: 4 séries de 10-15 reps (sem descanso após A1)',
+                            '--- ISOLAMENTO ---',
+                            'Remada Unilateral com Halter (Serrote): 3 séries de 8-12 reps (com Contração de Pico)',
+                            '--- FINALIZADOR ---',
+                            'Pullover com Halter: 3 séries de 12-15 reps (foco no alongamento)'
+                        ]
+                    },
+                    'Treino C - Bíceps e Tríceps': {
+                        descricao: 'Supersets agonista-antagonista para o máximo "pump" nos braços.',
+                        exercicios: [
+                            '--- SUPER-SET 1 ---',
+                            'A1: Rosca Scott com Barra: 4 séries de 8-12 reps',
+                            'A2: Tríceps Testa com Barra W: 4 séries de 8-12 reps',
+                            '--- SUPER-SET 2 ---',
+                            'B1: Rosca Alternada com Halteres: 3 séries de 10-12 reps',
+                            'B2: Tríceps Francês Unilateral: 3 séries de 10-12 reps',
+                            '--- SUPER-SET 3 (FINALIZADOR) ---',
+                            'C1: Rosca Concentrada: 3 séries de 12-15 reps',
+                            'C2: Tríceps na Polia com Corda: 3 séries de 12-15 reps'
+                        ]
+                    },
+                    'Treino D - LEG DAY💀': {
+                        descricao: 'Intensidade máxima com pré-exaustão para destruir as pernas.',
+                         exercicios: [
+                            '--- PRÉ-EXAUSTÃO ---',
+                            'Cadeira Extensora: 3 séries de 15-20 reps (com pouco descanso)',
+                            '--- EXERCÍCIO PRINCIPAL ---',
+                            'Agachamento no Smith ou Leg Press: 5 séries de 8-15 reps',
+                            '--- SUPER-SET POSTERIOR ---',
+                            'A1: Cadeira Flexora: 4 séries de 10-15 reps',
+                            'A2: Stiff com Halteres: 4 séries de 12-15 reps',
+                            '--- FINALIZADOR ---',
+                            'Passada (Afundo) com Halteres: 3 séries de 20 passos totais'
+                        ]
+                    }
+                }
+            }
+        };
 
-        treinoCards.forEach(card => observer.observe(card));
+        // --- FUNÇÕES DO SITE ---
 
-        // Card Click Feedback
-        treinoCards.forEach(card => {
-            card.addEventListener('mousedown', () => {
-                gsap.to(card, { scale: 0.95, duration: 0.1 });
-            });
-            card.addEventListener('mouseup', () => {
-                gsap.to(card, { scale: 1.03, duration: 0.2, ease: 'back.out(1.7)' });
-            });
-        });
-
-        // Instagram Button Animation
-        const instagramButton = document.querySelector('.instagram-button');
-        instagramButton.addEventListener('mouseenter', () => {
-            gsap.to(instagramButton, { scale: 1.1, duration: 0.3, ease: 'power2.out' });
-        });
-        instagramButton.addEventListener('mouseleave', () => {
-            gsap.to(instagramButton, { scale: 1, duration: 0.3, ease: 'power2.out' });
-        });
-        instagramButton.addEventListener('mousedown', () => {
-            gsap.to(instagramButton, { scale: 0.95, duration: 0.1 });
-        });
-        instagramButton.addEventListener('mouseup', () => {
-            gsap.to(instagramButton, { scale: 1.1, duration: 0.2, ease: 'back.out(1.7)' });
+        document.addEventListener('DOMContentLoaded', () => {
+            // Gera os cards para ambos os planos de treino
+            gerarCardsDeTreino('low-volume', document.getElementById('low-volume-grid'));
+            gerarCardsDeTreino('high-intensity', document.getElementById('high-intensity-grid'));
+            
+            // Re-inicializa as animações para os cards gerados
+            initGsapAnims();
         });
 
-        // Modal Functions
-        function openModal(treino) {
+        function gerarCardsDeTreino(planoId, gridElement) {
+            const plano = planosDeTreino[planoId];
+            if (!plano || !gridElement) return;
+
+            const treinosDoPlano = plano.treinos;
+            gridElement.innerHTML = ''; // Limpa o grid antes de adicionar
+
+            for (const treinoNome in treinosDoPlano) {
+                const treino = treinosDoPlano[treinoNome];
+                // Determina a imagem do card com base no nome do treino
+                let img_src = './imagens/A.png'; // Padrão
+                if (treinoNome.toLowerCase().includes('costas') || treinoNome.toLowerCase().includes('puxar')) img_src = './imagens/B.png';
+                if (treinoNome.toLowerCase().includes('bíceps') || treinoNome.toLowerCase().includes('braços')) img_src = './imagens/C.png';
+                if (treinoNome.toLowerCase().includes('pernas') || treinoNome.toLowerCase().includes('leg')) img_src = './imagens/D.png';
+                if (treinoNome.toLowerCase().includes('recuperação')) img_src = './imagens/logo.png';
+
+
+                const cardHTML = `
+                    <div class="treino-card" onclick="openModal('${planoId}', '${treinoNome}')">
+                        <img src="${img_src}" alt="${treinoNome}" loading="lazy">
+                        <div class="treino-card-content">
+                            <h3>${treinoNome}</h3>
+                            <p>${treino.descricao}</p>
+                        </div>
+                    </div>
+                `;
+                gridElement.innerHTML += cardHTML;
+            }
+        }
+
+        function openModal(planoId, treinoNome) {
             const modal = document.getElementById('modal');
             const modalContent = modal.querySelector('.modal-content');
-            const modalTitle = document.getElementById('modal-title');
+            const planTitleElement = document.getElementById('plan-title');
+            const modalTitleElement = document.getElementById('modal-title');
             const modalExercicios = document.getElementById('modal-exercicios');
 
-            modalTitle.textContent = treino;
+            const plano = planosDeTreino[planoId];
+            const treino = plano.treinos[treinoNome];
+
+            planTitleElement.textContent = plano.titulo;
+            modalTitleElement.textContent = treinoNome;
             modalExercicios.innerHTML = '';
-            treinos[treino].forEach(ex => {
+            
+            treino.exercicios.forEach(ex => {
                 const li = document.createElement('li');
                 li.textContent = ex;
+                if (ex.includes('---')) {
+                    li.style.color = '#F5A623';
+                    li.style.fontWeight = 'bold';
+                    li.style.listStyle = 'none';
+                    li.style.paddingLeft = '0';
+                    li.style.textAlign = 'center';
+                    li.style.marginTop = '15px';
+                    li.style.marginBottom = '15px';
+                }
                 modalExercicios.appendChild(li);
             });
 
-            modal.style.display = 'flex';
-            gsap.fromTo(
-                modal,
-                { opacity: 0 },
-                { opacity: 1, duration: 0.5, ease: 'power2.in' }
-            );
-            gsap.fromTo(
-                modalContent,
-                { scale: 0.8, opacity: 0 },
-                { scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(1.7)' }
-            );
+            modal.classList.add('visible');
+            gsap.fromTo(modal, { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.in' });
+            gsap.fromTo(modalContent, { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(1.7)' });
             modalContent.focus();
         }
 
@@ -816,17 +782,18 @@
                 duration: 0.3,
                 ease: 'power2.out',
                 onComplete: () => {
-                    modal.style.display = 'none';
+                    modal.classList.remove('visible');
                 }
             });
         }
 
         function copyTreino() {
             const modalTitle = document.getElementById('modal-title').textContent;
+            const planTitle = document.getElementById('plan-title').textContent;
             const modalExercicios = Array.from(document.getElementById('modal-exercicios').getElementsByTagName('li'))
                 .map(li => li.textContent)
                 .join('\n');
-            const textToCopy = `${modalTitle}\n\n${modalExercicios}`;
+            const textToCopy = `Plano: ${planTitle}\nTreino: ${modalTitle}\n\n${modalExercicios}`;
 
             navigator.clipboard.writeText(textToCopy).then(() => {
                 const copyBtn = document.querySelector('.copy-btn');
@@ -836,63 +803,16 @@
                 }, 2000);
             }).catch(err => {
                 console.error('Erro ao copiar o treino:', err);
-                alert('Erro ao copiar o treino. Tente novamente.');
+                alert('Erro ao copiar. Tente manualmente.');
             });
         }
-
-        // Close Modal on Outside Click
+        
         document.getElementById('modal').addEventListener('click', (e) => {
             if (e.target === document.getElementById('modal')) {
                 closeModal();
             }
         });
-
-        // Search Functionality
-        const searchBar = document.querySelector('.search-bar');
-        if (searchBar) {
-            searchBar.addEventListener('input', (e) => {
-                const searchTerm = e.target.value.toLowerCase().trim();
-                console.log('Search term:', searchTerm);
-                treinoCards.forEach(card => {
-                    const title = card.querySelector('h3').textContent.toLowerCase();
-                    const description = card.querySelector('p').textContent.toLowerCase();
-                    const matches = title.includes(searchTerm) || description.includes(searchTerm);
-                    card.style.display = matches ? 'block' : 'none';
-                    console.log(`Card: ${title}, Matches: ${matches}`);
-                });
-            });
-        } else {
-            console.error('Search bar not found');
-        }
-
-        // Filter Functionality
-        const filterButtons = document.querySelectorAll('.treino-filters button');
-        if (filterButtons.length > 0) {
-            filterButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    document.querySelector('.treino-filters button.active')?.classList.remove('active');
-                    button.classList.add('active');
-                    const filter = button.dataset.filter;
-                    console.log('Filter applied:', filter);
-                    treinoCards.forEach(card => {
-                        const title = card.querySelector('h3').textContent.toLowerCase();
-                        let matches = false;
-                        if (filter === 'all') {
-                            matches = true;
-                        } else {
-                            const keywords = categoryMap[filter] || [filter];
-                            matches = keywords.some(keyword => title.includes(keyword));
-                        }
-                        card.style.display = matches ? 'block' : 'none';
-                        console.log(`Card: ${title}, Filter: ${filter}, Matches: ${matches}`);
-                    });
-                });
-            });
-        } else {
-            console.error('Filter buttons not found');
-        }
-
-        // TMB Calculator Functionality
+        
         function calcularTMB() {
             const peso = parseFloat(document.getElementById('peso').value);
             const altura = parseFloat(document.getElementById('altura').value);
@@ -912,65 +832,74 @@
                 tmb = 447.593 + (9.247 * peso) + (3.098 * altura) - (4.330 * idade);
             }
 
-            const fatorCorrecao = 1821 / (88.362 + (13.397 * 74) + (4.799 * 170) - (5.677 * 16));
-            tmb = tmb * fatorCorrecao;
+            let fatorAtividade;
+            switch(atividade) {
+                case 'sedentario': fatorAtividade = 1.2; break;
+                case 'moderado': fatorAtividade = 1.375; break;
+                case 'intenso': fatorAtividade = 1.55; break;
+                case 'muito_intenso': fatorAtividade = 1.725; break;
+                default: fatorAtividade = 1.2;
+            }
 
-            tmb = Math.round(tmb * 100) / 100;
-
-            const ndcSedentario = tmb * 1.25;
-            const ndcModerado = tmb * 1.35;
-            const ndcIntenso = tmb * 1.45;
+            const ndc = tmb * fatorAtividade;
 
             document.getElementById('tmb-value').textContent = tmb.toFixed(2);
-            document.getElementById('ndc-sedentario').textContent = ndcSedentario.toFixed(2);
-            document.getElementById('ndc-moderado').textContent = ndcModerado.toFixed(2);
-            document.getElementById('ndc-intenso').textContent = ndcIntenso.toFixed(2);
+            document.getElementById('ndc-value').textContent = ndc.toFixed(2);
 
             const tmbResult = document.getElementById('tmb-result');
             tmbResult.style.display = 'block';
-
-            gsap.fromTo(
-                tmbResult,
-                { opacity: 0, y: 20 },
-                { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }
-            );
+            gsap.fromTo(tmbResult, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' });
         }
+        
+        // --- ANIMAÇÕES GSAP E SERVICE WORKER ---
+        
+        function initGsapAnims() {
+            gsap.registerPlugin(ScrollTrigger);
 
-        // Registrar o Service Worker
+            gsap.fromTo('.hero-content', { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 1.2, ease: 'power3.out' });
+            gsap.fromTo('.instagram-button', { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.8, delay: 1, ease: 'elastic.out(1, 0.5)' });
+
+            document.querySelectorAll('.plan-section h2, .plan-section .plan-description').forEach(el => {
+                gsap.from(el, {
+                    scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' },
+                    opacity: 0, y: 50, duration: 1
+                });
+            });
+
+            const treinoCards = document.querySelectorAll('.treino-card');
+            treinoCards.forEach(card => {
+                gsap.from(card, {
+                    scrollTrigger: { trigger: card, start: 'top 90%', toggleActions: 'play none none none' },
+                    opacity: 0, y: 50, scale: 0.95, duration: 0.8, ease: 'power2.out'
+                });
+            });
+        }
+        
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./service-worker.js')
-                    .then(registration => {
-                        console.log('Service Worker registrado com sucesso:', registration);
-                    })
-                    .catch(error => {
-                        console.log('Falha ao registrar o Service Worker:', error);
-                    });
+                    .then(reg => console.log('Service Worker Registrado'))
+                    .catch(err => console.log('Falha ao registrar Service Worker:', err));
             });
         }
-
-        // Lógica para o botão de instalação do PWA
+        
         let deferredPrompt;
         window.addEventListener('beforeinstallprompt', (e) => {
-            console.log('Evento beforeinstallprompt disparado');
             e.preventDefault();
             deferredPrompt = e;
             document.getElementById('install-prompt').style.display = 'flex';
         });
 
         function promptInstall() {
-            deferredPrompt.prompt();
-            deferredPrompt.userChoice.then((choiceResult) => {
-                if (choiceResult.outcome === 'accepted') {
-                    console.log('Usuário aceitou instalar o app');
-                } else {
-                    console.log('Usuário recusou instalar o app');
-                }
-                deferredPrompt = null;
-                document.getElementById('install-prompt').style.display = 'none';
-            });
+            const installPrompt = document.getElementById('install-prompt');
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then(() => {
+                    deferredPrompt = null;
+                    installPrompt.style.display = 'none';
+                });
+            }
         }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'93c083915f70bae0',t:'MTc0NjYxODc3NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
 </body>
 </html>
