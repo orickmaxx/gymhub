@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="GYMHUB: Planos de treino de baixo volume e alta intensidade, inspirados na era de ouro do fisiculturismo. Calcule sua TMB e comece hoje.">
-    <meta name="keywords" content="treino, fitness, hipertrofia, musculação, off-season, low volume, high intensity, arnold schwarzenegger, tema claro, tema escuro">
-    <meta property="og:title" content="GYMHUB - Planos de Treino para Hipertrofia">
-    <meta property="og:description" content="Explore nossos planos de treino de baixo volume e alta intensidade com temas personalizáveis.">
+    <meta name="description" content="GYMHUB: Planos de treino com checklist, estatísticas de desempenho e cronômetro de descanso. Seu diário de treino completo.">
+    <meta name="keywords" content="treino, fitness, diário de treino, estatísticas de treino, checklist de exercícios, PWA fitness">
+    <meta property="og:title" content="GYMHUB - Seu Diário de Treino Completo">
+    <meta property="og:description" content="Marque seus treinos como concluídos, acompanhe suas estatísticas e use o cronômetro de descanso integrado.">
     <meta property="og:image" content="./imagens/logo.png">
     <meta property="og:url" content="https://orickmaxx.github.io/gymhub/">
-    <title>GYMHUB - Planos de Treino para Hipertrofia</title>
+    <title>GYMHUB - Diário de Treino e Estatísticas</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&family=Teko:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="manifest" href="./manifest.json">
     <meta name="mobile-web-app-capable" content="yes">
@@ -30,6 +31,7 @@
             --overlay-color: rgba(0, 0, 0, 0.9);
             --shadow-color: rgba(245, 166, 35, 0.4);
             --header-bg: rgba(0, 0, 0, 0.8);
+            --success-color: #28a745;
         }
 
         [data-theme="light"] {
@@ -65,10 +67,10 @@
             height: 100vh;
             object-fit: cover;
             z-index: -2;
-            display: block; /* Shown by default */
+            display: block;
         }
         body[data-theme="light"] #background-video {
-            display: none; /* Hide video in light mode */
+            display: none;
         }
         body::before {
             content: '';
@@ -131,7 +133,7 @@
         nav a {
             color: var(--text-color);
             text-decoration: none;
-            margin-left: 15px;
+            margin-left: 10px;
             font-size: 20px;
             font-weight: 700;
             text-transform: uppercase;
@@ -195,11 +197,12 @@
             transform: translateY(-2px);
             box-shadow: 0 6px 15px var(--shadow-color);
         }
-        .plan-section {
+        .plan-section, .stats-section {
             padding: 80px 20px;
             border-bottom: 1px solid var(--border-color);
+            min-height: 100vh;
         }
-        .plan-section h2 {
+        .plan-section h2, .stats-section h2 {
             font-size: 48px;
             font-weight: 700;
             text-align: center;
@@ -207,7 +210,7 @@
             margin-bottom: 10px;
             text-transform: uppercase;
         }
-        .plan-section .plan-description {
+        .plan-section .plan-description, .stats-section .plan-description {
             font-family: 'Roboto Condensed', sans-serif;
             font-size: 18px;
             color: var(--text-color-secondary);
@@ -307,17 +310,34 @@
             font-family: 'Roboto Condensed', sans-serif;
             font-size: 17px;
             color: var(--text-color);
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             line-height: 1.5;
-            padding-left: 20px;
+            padding-left: 35px;
             position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .modal-content ul li::before {
-            content: '✓';
-            color: var(--primary-color);
+        .modal-content ul li.completed-exercise span {
+            text-decoration: line-through;
+            color: var(--text-color-secondary);
+        }
+        .exercise-checkbox {
             position: absolute;
             left: 0;
-            font-weight: bold;
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+        }
+        .exercise-timer-icon {
+            color: var(--text-color-secondary);
+            cursor: pointer;
+            transition: color 0.3s ease;
+            font-size: 20px;
+            margin-left: 15px;
+        }
+        .exercise-timer-icon:hover {
+            color: var(--primary-color);
         }
         .close-modal {
             position: absolute;
@@ -332,6 +352,31 @@
             color: var(--primary-color);
             transform: rotate(90deg);
         }
+        .modal-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            gap: 15px;
+        }
+        .finish-workout-btn {
+            background: var(--success-color);
+            color: #FFFFFF;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 700;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            flex-grow: 1;
+        }
+        .finish-workout-btn.completed {
+             background: var(--border-color);
+             color: var(--text-color-secondary);
+             cursor: not-allowed;
+        }
         .copy-btn {
             background: var(--primary-color);
             color: #000000;
@@ -343,12 +388,140 @@
             font-weight: 700;
             text-transform: uppercase;
             transition: all 0.3s ease;
-            margin-top: 20px;
+            flex-grow: 1;
         }
         .copy-btn:hover {
             background: var(--text-color);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px var(--shadow-color);
+        }
+        /* --- ESTILOS DO CRONÔMETRO --- */
+        .timer-panel {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px dashed var(--border-color);
+            border-radius: 10px;
+        }
+        .timer-presets {
+            display: flex;
+            gap: 10px;
+        }
+        .timer-presets button {
+            background: var(--bg-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-family: 'Roboto Condensed', sans-serif;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .timer-presets button:hover {
+            background: var(--primary-color);
+            color: #000;
+            border-color: var(--primary-color);
+        }
+        .timer-display-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .timer-display-container svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+        .timer-display-container .progress-ring-bg {
+            stroke: var(--border-color);
+            fill: none;
+            stroke-width: 8;
+        }
+        .timer-display-container .progress-ring-fg {
+            stroke: var(--primary-color);
+            fill: none;
+            stroke-width: 8;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 1s linear;
+        }
+        #timer-display {
+            font-size: 40px;
+            font-weight: 700;
+            color: var(--text-color);
+        }
+        .timer-controls button {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 24px;
+            margin: 0 10px;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+        .timer-controls button:hover {
+            color: var(--primary-color);
+        }
+        /* --- ESTILOS DAS ESTATÍSTICAS --- */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .stat-card {
+            background: var(--bg-color-secondary);
+            padding: 25px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+        .stat-card h3 {
+            font-size: 24px;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+        .stat-card p {
+            font-family: 'Roboto Condensed', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--text-color);
+        }
+        .stat-card .subtext {
+            font-size: 16px;
+            color: var(--text-color-secondary);
+        }
+        #activity-calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            text-align: center;
+        }
+        #activity-calendar div {
+            padding: 10px 5px;
+            font-family: 'Roboto Condensed', sans-serif;
+            border-radius: 5px;
+        }
+        #activity-calendar .day-name {
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--text-color-secondary);
+        }
+        #activity-calendar .day-completed {
+            background-color: var(--primary-color);
+            color: #000;
+            font-weight: 700;
+        }
+        #activity-calendar .day-today {
+            border: 2px solid var(--primary-color);
         }
         .calculadora-tmb {
             padding: 80px 20px;
@@ -517,11 +690,16 @@
                 width: 100%;
                 justify-content: space-between;
             }
-            nav a {
-                font-size: 16px;
-                margin: 0 5px;
+            nav {
+                justify-content: center;
+                flex-wrap: wrap;
             }
-            .plan-section h2, .calculadora-tmb h2 {
+            nav a {
+                font-size: 14px;
+                margin: 0 3px;
+                padding: 6px 8px;
+            }
+            .plan-section h2, .calculadora-tmb h2, .stats-section h2 {
                 font-size: 36px;
             }
             .hero-content img {
@@ -546,6 +724,7 @@
                 <a href="#home">Home</a>
                 <a href="#low-volume">Baixo Volume</a>
                 <a href="#high-intensity">Alta Intensidade</a>
+                <a href="#estatisticas" onclick="renderStatistics()">Estatísticas</a>
                 <a href="#calculadora-tmb">TMB</a>
             </nav>
             <button class="theme-switcher" id="theme-switcher" aria-label="Mudar tema">
@@ -554,62 +733,88 @@
         </div>
     </header>
 
-    <section class="hero" id="home">
-        <div class="hero-content">
-            <img src="./imagens/logo.png" alt="GYMHUB Logo" loading="lazy">
-            <a href="#planos">Ver Planos de Treino</a>
-        </div>
-    </section>
+    <main>
+        <section class="hero" id="home">
+            <div class="hero-content">
+                <img src="./imagens/logo.png" alt="GYMHUB Logo" loading="lazy">
+                <a href="#planos">Ver Planos de Treino</a>
+            </div>
+        </section>
 
-    <section id="planos">
-        <div class="plan-section" id="low-volume">
-            <h2>Plano de Baixo Volume</h2>
-            <p class="plan-description">Foco em eficiência máxima para hipertrofia com menos exercícios, mas com intensidade total e progressão de carga constante. Ideal para quem busca resultados sólidos com otimização do tempo na academia.</p>
-            <div class="treinos-grid" id="low-volume-grid">
+        <section id="planos">
+            <div class="plan-section" id="low-volume">
+                <h2>Plano de Baixo Volume</h2>
+                <p class="plan-description">Foco em eficiência máxima para hipertrofia com menos exercícios, mas com intensidade total e progressão de carga constante. Ideal para quem busca resultados sólidos com otimização do tempo na academia.</p>
+                <div class="treinos-grid" id="low-volume-grid"></div>
+            </div>
+
+            <div class="plan-section" id="high-intensity">
+                <h2>Plano de Alta Intensidade</h2>
+                <p class="plan-description">Inspirado na filosofia de Arnold Schwarzenegger, este plano de alto volume e alta intensidade utiliza técnicas avançadas como Supersets e Drop Sets para levar seus músculos a um novo nível de estímulo. Recomendado para praticantes avançados.</p>
+                <div class="treinos-grid" id="high-intensity-grid"></div>
+            </div>
+        </section>
+
+        <section class="stats-section" id="estatisticas">
+            <h2>Suas Estatísticas</h2>
+            <p class="plan-description">Acompanhe seu progresso, consistência e desempenho. Cada treino finalizado conta!</p>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Treinos Finalizados</h3>
+                    <p id="total-workouts-stat">0</p>
+                    <span class="subtext">Total de sessões completas</span>
                 </div>
-        </div>
-
-        <div class="plan-section" id="high-intensity">
-            <h2>Plano de Alta Intensidade</h2>
-            <p class="plan-description">Inspirado na filosofia de Arnold Schwarzenegger, este plano de alto volume e alta intensidade utiliza técnicas avançadas como Supersets e Drop Sets para levar seus músculos a um novo nível de estímulo. Recomendado para praticantes avançados.</p>
-            <div class="treinos-grid" id="high-intensity-grid">
+                <div class="stat-card">
+                    <h3>Sequência Atual</h3>
+                    <p id="streak-stat">0 🔥</p>
+                    <span class="subtext">Dias consecutivos de treino</span>
                 </div>
-        </div>
-    </section>
+                <div class="stat-card">
+                    <h3>Frequência de Treinos</h3>
+                    <canvas id="workout-frequency-chart"></canvas>
+                </div>
+                <div class="stat-card">
+                    <h3>Calendário de Atividades</h3>
+                    <div id="calendar-header"></div>
+                    <div id="activity-calendar"></div>
+                </div>
+            </div>
+        </section>
 
-    <section class="calculadora-tmb" id="calculadora-tmb">
-        <h2>Calculadora TMB</h2>
-        <p>Descubra o total de calorias gastas para manter as funções vitais e determine sua necessidade diária de calorias (NDC).</p>
-        <div class="tmb-form">
-            <label for="peso">Peso (em quilos):</label>
-            <input type="number" id="peso" placeholder="Ex: 70" required>
-            <label for="altura">Altura (em centímetros):</label>
-            <input type="number" id="altura" placeholder="Ex: 170" required>
-            <label for="idade">Idade:</label>
-            <input type="number" id="idade" placeholder="Ex: 30" required>
-            <label for="sexo">Sexo:</label>
-            <select id="sexo" required>
-                <option value="" disabled selected>Selecione</option>
-                <option value="masculino">Masculino</option>
-                <option value="feminino">Feminino</option>
-            </select>
-            <label for="atividade">Nível de Atividade Física:</label>
-            <select id="atividade" required>
-                <option value="" disabled selected>Selecione</option>
-                <option value="sedentario">Sedentário (pouco ou nenhum exercício)</option>
-                <option value="moderado">Levemente Ativo (1-3 dias/semana)</option>
-                <option value="intenso">Moderadamente Ativo (3-5 dias/semana)</option>
-                <option value="muito_intenso">Muito Ativo (6-7 dias/semana)</option>
-            </select>
-            <button onclick="calcularTMB()">Calcular</button>
-        </div>
-        <div class="tmb-result" id="tmb-result" style="display: none;">
-            <h3>Resultado</h3>
-            <p>Taxa de Metabolismo Basal (TMB): <span id="tmb-value"></span> calorias</p>
-            <p>Sua Necessidade Diária de Calorias (NDC) é: <span id="ndc-value"></span> calorias</p>
-        </div>
-    </section>
-
+        <section class="calculadora-tmb" id="calculadora-tmb">
+            <h2>Calculadora TMB</h2>
+            <p>Descubra o total de calorias gastas para manter as funções vitais e determine sua necessidade diária de calorias (NDC).</p>
+            <div class="tmb-form">
+                <label for="peso">Peso (em quilos):</label>
+                <input type="number" id="peso" placeholder="Ex: 70" required>
+                <label for="altura">Altura (em centímetros):</label>
+                <input type="number" id="altura" placeholder="Ex: 170" required>
+                <label for="idade">Idade:</label>
+                <input type="number" id="idade" placeholder="Ex: 30" required>
+                <label for="sexo">Sexo:</label>
+                <select id="sexo" required>
+                    <option value="" disabled selected>Selecione</option>
+                    <option value="masculino">Masculino</option>
+                    <option value="feminino">Feminino</option>
+                </select>
+                <label for="atividade">Nível de Atividade Física:</label>
+                <select id="atividade" required>
+                    <option value="" disabled selected>Selecione</option>
+                    <option value="sedentario">Sedentário (pouco ou nenhum exercício)</option>
+                    <option value="moderado">Levemente Ativo (1-3 dias/semana)</option>
+                    <option value="intenso">Moderadamente Ativo (3-5 dias/semana)</option>
+                    <option value="muito_intenso">Muito Ativo (6-7 dias/semana)</option>
+                </select>
+                <button onclick="calcularTMB()">Calcular</button>
+            </div>
+            <div class="tmb-result" id="tmb-result" style="display: none;">
+                <h3>Resultado</h3>
+                <p>Taxa de Metabolismo Basal (TMB): <span id="tmb-value"></span> calorias</p>
+                <p>Sua Necessidade Diária de Calorias (NDC) é: <span id="ndc-value"></span> calorias</p>
+            </div>
+        </section>
+    </main>
+    
     <div class="modal" id="modal" role="dialog" aria-hidden="true">
         <div class="modal-content" tabindex="-1">
             <span class="close-modal" onclick="closeModal()" aria-label="Fechar modal">×</span>
@@ -618,7 +823,30 @@
                 <p class="plan-title" id="plan-title"></p>
             </div>
             <ul id="modal-exercicios"></ul>
-            <button class="copy-btn" onclick="copyTreino()">Copiar Treino</button>
+            
+            <div class="timer-panel" id="timer-panel">
+                <div class="timer-presets">
+                    <button onclick="setTimer(60)">60s</button>
+                    <button onclick="setTimer(90)">90s</button>
+                    <button onclick="setTimer(120)">120s</button>
+                </div>
+                <div class="timer-display-container">
+                    <svg>
+                        <circle class="progress-ring-bg" cx="60" cy="60" r="54"></circle>
+                        <circle class="progress-ring-fg" id="progress-ring" cx="60" cy="60" r="54"></circle>
+                    </svg>
+                    <span id="timer-display">0:00</span>
+                </div>
+                <div class="timer-controls">
+                    <button id="timer-start-pause" onclick="toggleTimer()"><i class="fas fa-play"></i></button>
+                    <button id="timer-reset" onclick="resetTimer()"><i class="fas fa-undo"></i></button>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="finish-workout-btn" id="finish-workout-btn" onclick="finishWorkout()">Finalizar Treino</button>
+                <button class="copy-btn" onclick="copyTreino()">Copiar Texto</button>
+            </div>
         </div>
     </div>
 
@@ -766,30 +994,32 @@
             }
         };
 
-        // --- FUNÇÕES DO SITE ---
+        // --- VARIÁVEIS GLOBAIS ---
+        let currentPlanId = null;
+        let currentTreinoNome = null;
+        let workoutFrequencyChart = null;
 
+        // --- FUNÇÕES DO SITE ---
         document.addEventListener('DOMContentLoaded', () => {
             gerarCardsDeTreino('low-volume', document.getElementById('low-volume-grid'));
             gerarCardsDeTreino('high-intensity', document.getElementById('high-intensity-grid'));
             initTheme();
             initGsapAnims();
+            initTimer();
         });
 
         function gerarCardsDeTreino(planoId, gridElement) {
             const plano = planosDeTreino[planoId];
             if (!plano || !gridElement) return;
-
             const treinosDoPlano = plano.treinos;
             gridElement.innerHTML = '';
-
             for (const treinoNome in treinosDoPlano) {
                 const treino = treinosDoPlano[treinoNome];
-                let img_src = './imagens/A.png'; // Padrão
+                let img_src = './imagens/A.png';
                 if (treinoNome.toLowerCase().includes('costas') || treinoNome.toLowerCase().includes('puxar')) img_src = './imagens/B.png';
                 if (treinoNome.toLowerCase().includes('bíceps') || treinoNome.toLowerCase().includes('braços')) img_src = './imagens/C.png';
                 if (treinoNome.toLowerCase().includes('pernas') || treinoNome.toLowerCase().includes('leg')) img_src = './imagens/D.png';
                 if (treinoNome.toLowerCase().includes('recuperação')) img_src = './imagens/logo.png';
-
                 const cardHTML = `
                     <div class="treino-card" onclick="openModal('${planoId}', '${treinoNome}')">
                         <img src="${img_src}" alt="${treinoNome}" loading="lazy">
@@ -797,13 +1027,15 @@
                             <h3>${treinoNome}</h3>
                             <p>${treino.descricao}</p>
                         </div>
-                    </div>
-                `;
+                    </div>`;
                 gridElement.innerHTML += cardHTML;
             }
         }
 
         function openModal(planoId, treinoNome) {
+            currentPlanId = planoId;
+            currentTreinoNome = treinoNome;
+
             const modal = document.getElementById('modal');
             const modalContent = modal.querySelector('.modal-content');
             const planTitleElement = document.getElementById('plan-title');
@@ -817,20 +1049,35 @@
             modalTitleElement.textContent = treinoNome;
             modalExercicios.innerHTML = '';
             
+            const today = getTodayDateString();
+            const progress = getProgressData();
+            const todayProgress = progress[today] && progress[today].treinoNome === treinoNome ? progress[today] : { exercises: {} };
+
             treino.exercicios.forEach(ex => {
+                const isChecked = todayProgress.exercises[ex] === true;
                 const li = document.createElement('li');
-                li.textContent = ex;
+                if (isChecked) {
+                    li.classList.add('completed-exercise');
+                }
+
                 if (ex.includes('---')) {
+                    li.innerHTML = `<span>${ex}</span>`;
                     li.style.color = 'var(--primary-color)';
                     li.style.fontWeight = 'bold';
-                    li.style.listStyle = 'none';
+                    li.style.justifyContent = 'center';
                     li.style.paddingLeft = '0';
-                    li.style.textAlign = 'center';
-                    li.style.marginTop = '15px';
-                    li.style.marginBottom = '15px';
+                } else {
+                    li.innerHTML = `
+                        <input type="checkbox" class="exercise-checkbox" onchange="toggleExercise(this, '${ex}')" ${isChecked ? 'checked' : ''}>
+                        <span>${ex}</span>
+                        <i class="fas fa-clock exercise-timer-icon" onclick="showTimerPanel()"></i>`;
                 }
                 modalExercicios.appendChild(li);
             });
+
+            updateFinishWorkoutButton();
+            resetTimer(true);
+            document.getElementById('timer-panel').style.display = 'none';
 
             modal.classList.add('visible');
             gsap.fromTo(modal, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'power2.inOut' });
@@ -859,16 +1106,17 @@
         function copyTreino() {
             const modalTitle = document.getElementById('modal-title').textContent;
             const planTitle = document.getElementById('plan-title').textContent;
-            const modalExercicios = Array.from(document.getElementById('modal-exercicios').getElementsByTagName('li'))
-                .map(li => li.textContent)
+            const modalExercicios = Array.from(document.getElementById('modal-exercicios').querySelectorAll("li > span"))
+                .map(span => span.textContent)
                 .join('\n');
             const textToCopy = `Plano: ${planTitle}\nTreino: ${modalTitle}\n\n${modalExercicios}`;
 
             navigator.clipboard.writeText(textToCopy).then(() => {
                 const copyBtn = document.querySelector('.copy-btn');
+                const originalText = copyBtn.textContent;
                 copyBtn.textContent = 'Copiado!';
                 setTimeout(() => {
-                    copyBtn.textContent = 'Copiar Treino';
+                    copyBtn.textContent = originalText;
                 }, 2000);
             }).catch(err => {
                 console.error('Erro ao copiar o treino:', err);
@@ -914,23 +1162,271 @@
             gsap.fromTo(tmbResult, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' });
         }
         
-        // --- ANIMAÇÕES GSAP E FUNÇÕES ADICIONAIS ---
+        // --- CHECKBOX & PROGRESS LOGIC ---
+        function getTodayDateString() {
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const day = String(today.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        function getProgressData() {
+            return JSON.parse(localStorage.getItem('gymhubProgress')) || {};
+        }
+
+        function saveProgressData(data) {
+            localStorage.setItem('gymhubProgress', JSON.stringify(data));
+        }
+
+        function toggleExercise(checkbox, exerciseName) {
+            const progress = getProgressData();
+            const today = getTodayDateString();
+            
+            if (!progress[today]) {
+                progress[today] = {
+                    planoId: currentPlanId,
+                    treinoNome: currentTreinoNome,
+                    completed: false,
+                    exercises: {}
+                };
+            }
+            
+            progress[today].exercises[exerciseName] = checkbox.checked;
+            saveProgressData(progress);
+            
+            checkbox.parentElement.classList.toggle('completed-exercise', checkbox.checked);
+        }
+
+        function finishWorkout() {
+            const progress = getProgressData();
+            const today = getTodayDateString();
+            if (progress[today]) {
+                progress[today].completed = true;
+                saveProgressData(progress);
+                updateFinishWorkoutButton();
+            }
+        }
+
+        function updateFinishWorkoutButton() {
+            const progress = getProgressData();
+            const today = getTodayDateString();
+            const btn = document.getElementById('finish-workout-btn');
+            if (progress[today] && progress[today].completed) {
+                btn.textContent = 'Finalizado!';
+                btn.classList.add('completed');
+                btn.disabled = true;
+            } else {
+                btn.textContent = 'Finalizar Treino';
+                btn.classList.remove('completed');
+                btn.disabled = false;
+            }
+        }
+
+        // --- STATISTICS LOGIC ---
+        function renderStatistics() {
+            const progress = getProgressData();
+            
+            // 1. Total Workouts
+            const totalWorkouts = Object.values(progress).filter(day => day.completed).length;
+            document.getElementById('total-workouts-stat').textContent = totalWorkouts;
+
+            // 2. Current Streak
+            let streak = 0;
+            const today = new Date();
+            for (let i = 0; i < 365; i++) {
+                const dateToCheck = new Date(today);
+                dateToCheck.setDate(today.getDate() - i);
+                const dateString = `${dateToCheck.getFullYear()}-${String(dateToCheck.getMonth() + 1).padStart(2, '0')}-${String(dateToCheck.getDate()).padStart(2, '0')}`;
+                if (progress[dateString] && progress[dateString].completed) {
+                    streak++;
+                } else {
+                    break;
+                }
+            }
+            document.getElementById('streak-stat').textContent = `${streak} 🔥`;
+
+            // 3. Workout Frequency Chart
+            const frequency = {};
+            Object.values(progress).forEach(day => {
+                if (day.completed) {
+                    const name = day.treinoNome.split('-')[0].trim(); // "Treino A - Peito" -> "Treino A"
+                    frequency[name] = (frequency[name] || 0) + 1;
+                }
+            });
+
+            const chartCtx = document.getElementById('workout-frequency-chart').getContext('2d');
+            if(workoutFrequencyChart) {
+                workoutFrequencyChart.destroy();
+            }
+            workoutFrequencyChart = new Chart(chartCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(frequency),
+                    datasets: [{
+                        data: Object.values(frequency),
+                        backgroundColor: ['#F5A623', '#FFFFFF', '#999999', '#f0ad4e', '#5bc0de', '#5cb85c'],
+                        borderColor: varGet('--bg-color-secondary'),
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                color: varGet('--text-color-secondary'),
+                                font: {
+                                    family: "'Roboto Condensed', sans-serif",
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 4. Activity Calendar
+            renderCalendar(progress);
+        }
+
+        function renderCalendar(progress) {
+            const calendarEl = document.getElementById('activity-calendar');
+            const calendarHeaderEl = document.getElementById('calendar-header');
+            calendarEl.innerHTML = '';
+            
+            const today = new Date();
+            const month = today.getMonth();
+            const year = today.getFullYear();
+            
+            const monthName = today.toLocaleString('default', { month: 'long' });
+            calendarHeaderEl.innerHTML = `<h3 style="text-align:center; margin-bottom:10px;">${monthName} ${year}</h3>`;
+
+            const firstDayOfMonth = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const dayNames = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
+
+            dayNames.forEach(name => {
+                const dayNameEl = document.createElement('div');
+                dayNameEl.className = 'day-name';
+                dayNameEl.textContent = name;
+                calendarEl.appendChild(dayNameEl);
+            });
+
+            for (let i = 0; i < firstDayOfMonth; i++) {
+                calendarEl.appendChild(document.createElement('div'));
+            }
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayEl = document.createElement('div');
+                dayEl.textContent = day;
+                const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                
+                if (progress[dateString] && progress[dateString].completed) {
+                    dayEl.classList.add('day-completed');
+                }
+                if (day === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
+                     dayEl.classList.add('day-today');
+                }
+                calendarEl.appendChild(dayEl);
+            }
+        }
+
+
+        // --- LÓGICA DO CRONÔMETRO ---
+        let timerInterval;
+        let totalSeconds = 0;
+        let currentSeconds = 0;
+        let isRunning = false;
+        const timerDisplay = document.getElementById('timer-display');
+        const startPauseBtn = document.getElementById('timer-start-pause');
+        const progressRing = document.getElementById('progress-ring');
+        const radius = progressRing.r.baseVal.value;
+        const circumference = 2 * Math.PI * radius;
+        // const notificationSound = new Audio('./notification.mp3');
+
+        function showTimerPanel() {
+             document.getElementById('timer-panel').style.display = 'flex';
+        }
+
+        function initTimer() {
+            progressRing.style.strokeDasharray = `${circumference} ${circumference}`;
+            progressRing.style.strokeDashoffset = circumference;
+        }
+
+        function setProgress(percent) {
+            const offset = circumference - (percent / 100) * circumference;
+            progressRing.style.strokeDashoffset = offset;
+        }
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        function updateDisplay() {
+            timerDisplay.textContent = formatTime(currentSeconds);
+            const percent = totalSeconds > 0 ? ((totalSeconds - currentSeconds) / totalSeconds) * 100 : 0;
+            setProgress(percent);
+        }
+
+        function setTimer(seconds) {
+            if (isRunning) return;
+            totalSeconds = seconds;
+            currentSeconds = seconds;
+            updateDisplay();
+        }
+
+        function toggleTimer() {
+            if (isRunning) {
+                clearInterval(timerInterval);
+                startPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+                isRunning = false;
+            } else {
+                if (currentSeconds <= 0) return;
+                isRunning = true;
+                startPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                timerInterval = setInterval(() => {
+                    currentSeconds--;
+                    updateDisplay();
+                    if (currentSeconds <= 0) {
+                        clearInterval(timerInterval);
+                        startPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+                        isRunning = false;
+                        // notificationSound.play();
+                        setTimeout(() => resetTimer(true), 500);
+                    }
+                }, 1000);
+            }
+        }
         
+        function resetTimer(silent = false) {
+            clearInterval(timerInterval);
+            startPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+            isRunning = false;
+            currentSeconds = totalSeconds;
+            if (silent) {
+                totalSeconds = 0;
+                currentSeconds = 0;
+            }
+            updateDisplay();
+        }
+
+        // --- ANIMAÇÕES GSAP E FUNÇÕES ADICIONAIS ---
         function initGsapAnims() {
             gsap.registerPlugin(ScrollTrigger);
 
             gsap.fromTo('.hero-content', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power4.out' });
             gsap.fromTo('.instagram-button', { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.8, delay: 0.5, ease: 'elastic.out(1, 0.5)' });
 
-            document.querySelectorAll('.plan-section h2, .plan-section .plan-description').forEach(el => {
+            document.querySelectorAll('.plan-section h2, .plan-section .plan-description, .stats-section h2, .stats-section .plan-description').forEach(el => {
                 gsap.from(el, {
                     scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' },
                     opacity: 0, y: 30, duration: 0.8, ease: 'power4.out'
                 });
             });
 
-            // Animação com stagger para os cards
-            gsap.utils.toArray('.treino-card').forEach(card => {
+            gsap.utils.toArray('.treino-card, .stat-card').forEach(card => {
                  gsap.from(card, {
                     scrollTrigger: { trigger: card, start: 'top 90%', toggleActions: 'play none none none' },
                     opacity: 0, y: 40, scale: 0.98, duration: 0.6, ease: 'power3.out'
@@ -943,12 +1439,17 @@
         const body = document.body;
         const sunIcon = 'fa-sun';
         const moonIcon = 'fa-moon';
+        
+        const varGet = (name) => getComputedStyle(body).getPropertyValue(name).trim();
 
         function set_theme(theme) {
             body.setAttribute('data-theme', theme);
             localStorage.setItem('theme', theme);
             const icon = theme === 'light' ? moonIcon : sunIcon;
             themeSwitcher.innerHTML = `<i class="fas ${icon}"></i>`;
+            if(workoutFrequencyChart) { // Update chart colors on theme change
+                renderStatistics();
+            }
         }
 
         function initTheme() {
