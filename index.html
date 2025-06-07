@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="GYMHUB: Planos de treino de baixo volume e alta intensidade, inspirados na era de ouro do fisiculturismo. Calcule sua TMB e comece hoje.">
-    <meta name="keywords" content="treino, fitness, hipertrofia, musculação, off-season, low volume, high intensity, arnold schwarzenegger">
+    <meta name="keywords" content="treino, fitness, hipertrofia, musculação, off-season, low volume, high intensity, arnold schwarzenegger, tema claro, tema escuro">
     <meta property="og:title" content="GYMHUB - Planos de Treino para Hipertrofia">
-    <meta property="og:description" content="Explore nossos planos de treino de baixo volume e alta intensidade.">
+    <meta property="og:description" content="Explore nossos planos de treino de baixo volume e alta intensidade com temas personalizáveis.">
     <meta property="og:image" content="./imagens/logo.png">
     <meta property="og:url" content="https://orickmaxx.github.io/gymhub/">
     <title>GYMHUB - Planos de Treino para Hipertrofia</title>
@@ -20,6 +20,30 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#F5A623">
     <style>
+        :root {
+            --bg-color: #000000;
+            --bg-color-secondary: #1A1A1A;
+            --text-color: #FFFFFF;
+            --text-color-secondary: #999999;
+            --primary-color: #F5A623;
+            --border-color: #333333;
+            --overlay-color: rgba(0, 0, 0, 0.9);
+            --shadow-color: rgba(245, 166, 35, 0.4);
+            --header-bg: rgba(0, 0, 0, 0.8);
+        }
+
+        [data-theme="light"] {
+            --bg-color: #F0F2F5;
+            --bg-color-secondary: #FFFFFF;
+            --text-color: #1c1e21;
+            --text-color-secondary: #606770;
+            --primary-color: #F5A623;
+            --border-color: #ced0d4;
+            --overlay-color: rgba(255, 255, 255, 0.9);
+            --shadow-color: rgba(0, 0, 0, 0.15);
+             --header-bg: rgba(255, 255, 255, 0.8);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -27,10 +51,11 @@
             font-family: 'Teko', sans-serif;
         }
         body {
-            color: #FFFFFF;
-            background: #000000;
+            color: var(--text-color);
+            background: var(--bg-color);
             overflow-x: hidden;
             scroll-behavior: smooth;
+            transition: background 0.3s ease, color 0.3s ease;
         }
         #background-video {
             position: fixed;
@@ -40,6 +65,10 @@
             height: 100vh;
             object-fit: cover;
             z-index: -2;
+            display: block; /* Shown by default */
+        }
+        body[data-theme="light"] #background-video {
+            display: none; /* Hide video in light mode */
         }
         body::before {
             content: '';
@@ -48,11 +77,12 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.9);
+            background: var(--overlay-color);
             z-index: -1;
+            transition: background 0.3s ease;
         }
         header {
-            background: rgba(0, 0, 0, 0.8);
+            background: var(--header-bg);
             backdrop-filter: blur(10px);
             padding: 10px 20px;
             position: fixed;
@@ -61,7 +91,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid #333333;
+            border-bottom: 1px solid var(--border-color);
+            transition: background 0.3s ease, border-color 0.3s ease;
         }
         .logo-container {
             display: flex;
@@ -77,23 +108,28 @@
         }
         .logo-container span {
             font-size: 14px;
-            color: #999999;
+            color: var(--text-color-secondary);
             margin-top: 3px;
         }
         .logo-container span a {
-            color: #999999;
+            color: var(--text-color-secondary);
             text-decoration: none;
             transition: color 0.3s ease;
         }
         .logo-container span a:hover {
-            color: #F5A623;
+            color: var(--primary-color);
+        }
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
         nav {
             display: flex;
             align-items: center;
         }
         nav a {
-            color: #FFFFFF;
+            color: var(--text-color);
             text-decoration: none;
             margin-left: 15px;
             font-size: 20px;
@@ -104,8 +140,26 @@
             transition: all 0.3s ease;
         }
         nav a:hover, nav a.active {
-            background: #F5A623;
+            background: var(--primary-color);
             color: #000000;
+        }
+        .theme-switcher {
+            background: none;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .theme-switcher:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
         }
         .hero {
             height: 100vh;
@@ -125,7 +179,7 @@
             height: auto;
         }
         .hero-content a {
-            background: #F5A623;
+            background: var(--primary-color);
             color: #000000;
             padding: 12px 24px;
             border-radius: 25px;
@@ -133,30 +187,30 @@
             font-size: 22px;
             font-weight: 700;
             text-transform: uppercase;
-            box-shadow: 0 4px 10px rgba(245, 166, 35, 0.5);
+            box-shadow: 0 4px 10px var(--shadow-color);
             transition: all 0.3s ease;
         }
         .hero-content a:hover {
-            background: #FFFFFF;
+            background: var(--text-color);
             transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(245, 166, 35, 0.7);
+            box-shadow: 0 6px 15px var(--shadow-color);
         }
         .plan-section {
             padding: 80px 20px;
-            border-bottom: 1px solid #222;
+            border-bottom: 1px solid var(--border-color);
         }
         .plan-section h2 {
             font-size: 48px;
             font-weight: 700;
             text-align: center;
-            color: #F5A623;
+            color: var(--primary-color);
             margin-bottom: 10px;
             text-transform: uppercase;
         }
         .plan-section .plan-description {
             font-family: 'Roboto Condensed', sans-serif;
             font-size: 18px;
-            color: #CCCCCC;
+            color: var(--text-color-secondary);
             text-align: center;
             max-width: 800px;
             margin: 0 auto 40px auto;
@@ -171,16 +225,18 @@
             justify-content: center;
         }
         .treino-card {
-            background: #1A1A1A;
+            background: var(--bg-color-secondary);
             border-radius: 10px;
             overflow: hidden;
             transition: all 0.3s ease;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
             cursor: pointer;
+            border: 1px solid var(--border-color);
         }
         .treino-card:hover {
             transform: translateY(-5px) scale(1.03);
-            box-shadow: 0 8px 20px rgba(245, 166, 35, 0.4);
+            box-shadow: 0 8px 20px var(--shadow-color);
+            border-color: var(--primary-color);
         }
         .treino-card img {
             width: 100%;
@@ -198,13 +254,13 @@
         .treino-card-content h3 {
             font-size: 28px;
             font-weight: 700;
-            color: #FFFFFF;
+            color: var(--text-color);
             margin-bottom: 8px;
         }
         .treino-card-content p {
             font-family: 'Roboto Condensed', sans-serif;
             font-size: 16px;
-            color: #999999;
+            color: var(--text-color-secondary);
             line-height: 1.4;
         }
         .modal {
@@ -223,7 +279,7 @@
             display: flex;
         }
         .modal-content {
-            background: #1A1A1A;
+            background: var(--bg-color-secondary);
             padding: 25px;
             border-radius: 12px;
             max-width: 600px;
@@ -231,17 +287,17 @@
             max-height: 85vh;
             overflow-y: auto;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
-            border: 1px solid #333;
+            border: 1px solid var(--border-color);
         }
         .modal-header h3 {
             font-size: 32px;
-            color: #F5A623;
+            color: var(--primary-color);
             margin-bottom: 5px;
         }
          .modal-header .plan-title {
             font-family: 'Roboto Condensed', sans-serif;
             font-size: 16px;
-            color: #999;
+            color: var(--text-color-secondary);
             margin-bottom: 20px;
         }
         .modal-content ul {
@@ -250,7 +306,7 @@
         .modal-content ul li {
             font-family: 'Roboto Condensed', sans-serif;
             font-size: 17px;
-            color: #FFFFFF;
+            color: var(--text-color);
             margin-bottom: 10px;
             line-height: 1.5;
             padding-left: 20px;
@@ -258,7 +314,7 @@
         }
         .modal-content ul li::before {
             content: '✓';
-            color: #F5A623;
+            color: var(--primary-color);
             position: absolute;
             left: 0;
             font-weight: bold;
@@ -269,15 +325,15 @@
             right: 20px;
             font-size: 32px;
             cursor: pointer;
-            color: #999999;
+            color: var(--text-color-secondary);
             transition: color 0.3s ease, transform 0.3s ease;
         }
         .close-modal:hover {
-            color: #F5A623;
+            color: var(--primary-color);
             transform: rotate(90deg);
         }
         .copy-btn {
-            background: #F5A623;
+            background: var(--primary-color);
             color: #000000;
             border: none;
             padding: 10px 20px;
@@ -290,9 +346,9 @@
             margin-top: 20px;
         }
         .copy-btn:hover {
-            background: #FFFFFF;
+            background: var(--text-color);
             transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(245, 166, 35, 0.7);
+            box-shadow: 0 6px 15px var(--shadow-color);
         }
         .calculadora-tmb {
             padding: 80px 20px;
@@ -301,28 +357,29 @@
         .calculadora-tmb h2 {
             font-size: 48px;
             font-weight: 700;
-            color: #F5A623;
+            color: var(--primary-color);
             margin-bottom: 20px;
             text-transform: uppercase;
         }
         .calculadora-tmb p {
             font-family: 'Roboto Condensed', sans-serif;
             font-size: 18px;
-            color: #CCCCCC;
+            color: var(--text-color-secondary);
             margin-bottom: 30px;
         }
         .tmb-form {
-            background: #1A1A1A;
+            background: var(--bg-color-secondary);
             padding: 30px;
             border-radius: 10px;
             max-width: 500px;
             margin: 0 auto;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border-color);
         }
         .tmb-form label {
             display: block;
             font-size: 16px;
-            color: #FFFFFF;
+            color: var(--text-color);
             margin-bottom: 5px;
             text-align: left;
             font-family: 'Roboto Condensed', sans-serif;
@@ -332,8 +389,8 @@
             width: 100%;
             padding: 10px;
             margin-bottom: 15px;
-            background: #333333;
-            border: none;
+            background: #333333; /* Mantido escuro para contraste */
+            border: 1px solid #555;
             border-radius: 5px;
             color: #FFFFFF;
             font-size: 16px;
@@ -342,10 +399,10 @@
         .tmb-form input:focus,
         .tmb-form select:focus {
             outline: none;
-            background: #444444;
+            border-color: var(--primary-color);
         }
         .tmb-form button {
-            background: #F5A623;
+            background: var(--primary-color);
             color: #000000;
             border: none;
             padding: 12px 24px;
@@ -357,54 +414,56 @@
             transition: all 0.3s ease;
         }
         .tmb-form button:hover {
-            background: #FFFFFF;
+            background: var(--text-color);
             transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(245, 166, 35, 0.7);
+            box-shadow: 0 6px 15px var(--shadow-color);
         }
         .tmb-result {
             margin-top: 30px;
-            background: #1A1A1A;
+            background: var(--bg-color-secondary);
             padding: 20px;
             border-radius: 10px;
             max-width: 500px;
             margin: 30px auto 0;
             text-align: left;
+            border: 1px solid var(--border-color);
         }
         .tmb-result h3 {
             font-size: 24px;
-            color: #F5A623;
+            color: var(--primary-color);
             margin-bottom: 15px;
         }
         .tmb-result p {
             font-size: 18px;
-            color: #FFFFFF;
+            color: var(--text-color);
             margin-bottom: 10px;
             font-family: 'Roboto Condensed', sans-serif;
         }
         .tmb-result p span {
-            color: #F5A623;
+            color: var(--primary-color);
             font-weight: 700;
         }
         footer {
-            background: #000000;
+            background: var(--bg-color);
             padding: 15px;
             text-align: center;
             font-size: 14px;
-            color: #999999;
-            border-top: 1px solid #333333;
+            color: var(--text-color-secondary);
+            border-top: 1px solid var(--border-color);
+            transition: all 0.3s ease;
         }
         #install-prompt {
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: #F5A623;
+            background: var(--primary-color);
             color: #000000;
             padding: 10px 20px;
             border-radius: 25px;
             display: none;
             align-items: center;
             gap: 10px;
-            box-shadow: 0 4px 10px rgba(245, 166, 35, 0.5);
+            box-shadow: 0 4px 10px var(--shadow-color);
             z-index: 1000;
             font-size: 16px;
             font-weight: 700;
@@ -429,12 +488,12 @@
             z-index: 1000;
             width: 50px;
             height: 50px;
-            background: #F5A623;
+            background: var(--primary-color);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 10px rgba(245, 166, 35, 0.5);
+            box-shadow: 0 4px 10px var(--shadow-color);
             text-decoration: none;
             transition: all 0.3s ease;
         }
@@ -443,20 +502,20 @@
             font-size: 24px;
         }
         .instagram-button:hover {
-            background: #FFFFFF;
+            background: var(--text-color);
             transform: scale(1.1);
-            box-shadow: 0 6px 15px rgba(245, 166, 35, 0.7);
         }
         @media (max-width: 768px) {
-            .hero-content img {
-                width: 250px;
-            }
             header {
                 flex-direction: column;
                 padding: 10px;
             }
             .logo-container {
                 margin-bottom: 10px;
+            }
+            .nav-controls {
+                width: 100%;
+                justify-content: space-between;
             }
             nav a {
                 font-size: 16px;
@@ -465,10 +524,13 @@
             .plan-section h2, .calculadora-tmb h2 {
                 font-size: 36px;
             }
+            .hero-content img {
+                width: 250px;
+            }
         }
     </style>
 </head>
-<body>
+<body data-theme="dark">
     <video id="background-video" autoplay loop muted playsinline preload="auto">
         <source src="./videos/fundo2.mp4" type="video/mp4">
         Seu navegador não suporta a tag de vídeo.
@@ -479,12 +541,17 @@
             <img src="./imagens/logo.png" alt="GYMHUB Logo" loading="lazy">
             <span>By <a href="https://www.instagram.com/orickmax" target="_blank">@orickmax</a></span>
         </div>
-        <nav>
-            <a href="#home">Home</a>
-            <a href="#low-volume">Baixo Volume</a>
-            <a href="#high-intensity">Alta Intensidade</a>
-            <a href="#calculadora-tmb">TMB</a>
-        </nav>
+        <div class="nav-controls">
+            <nav>
+                <a href="#home">Home</a>
+                <a href="#low-volume">Baixo Volume</a>
+                <a href="#high-intensity">Alta Intensidade</a>
+                <a href="#calculadora-tmb">TMB</a>
+            </nav>
+            <button class="theme-switcher" id="theme-switcher" aria-label="Mudar tema">
+                <i class="fas fa-sun"></i>
+            </button>
+        </div>
     </header>
 
     <section class="hero" id="home">
@@ -702,11 +769,9 @@
         // --- FUNÇÕES DO SITE ---
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Gera os cards para ambos os planos de treino
             gerarCardsDeTreino('low-volume', document.getElementById('low-volume-grid'));
             gerarCardsDeTreino('high-intensity', document.getElementById('high-intensity-grid'));
-            
-            // Re-inicializa as animações para os cards gerados
+            initTheme();
             initGsapAnims();
         });
 
@@ -715,17 +780,15 @@
             if (!plano || !gridElement) return;
 
             const treinosDoPlano = plano.treinos;
-            gridElement.innerHTML = ''; // Limpa o grid antes de adicionar
+            gridElement.innerHTML = '';
 
             for (const treinoNome in treinosDoPlano) {
                 const treino = treinosDoPlano[treinoNome];
-                // Determina a imagem do card com base no nome do treino
                 let img_src = './imagens/A.png'; // Padrão
                 if (treinoNome.toLowerCase().includes('costas') || treinoNome.toLowerCase().includes('puxar')) img_src = './imagens/B.png';
                 if (treinoNome.toLowerCase().includes('bíceps') || treinoNome.toLowerCase().includes('braços')) img_src = './imagens/C.png';
                 if (treinoNome.toLowerCase().includes('pernas') || treinoNome.toLowerCase().includes('leg')) img_src = './imagens/D.png';
                 if (treinoNome.toLowerCase().includes('recuperação')) img_src = './imagens/logo.png';
-
 
                 const cardHTML = `
                     <div class="treino-card" onclick="openModal('${planoId}', '${treinoNome}')">
@@ -758,7 +821,7 @@
                 const li = document.createElement('li');
                 li.textContent = ex;
                 if (ex.includes('---')) {
-                    li.style.color = '#F5A623';
+                    li.style.color = 'var(--primary-color)';
                     li.style.fontWeight = 'bold';
                     li.style.listStyle = 'none';
                     li.style.paddingLeft = '0';
@@ -770,8 +833,8 @@
             });
 
             modal.classList.add('visible');
-            gsap.fromTo(modal, { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.in' });
-            gsap.fromTo(modalContent, { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(1.7)' });
+            gsap.fromTo(modal, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'power2.inOut' });
+            gsap.fromTo(modalContent, { scale: 0.9, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: 'power4.out' });
             modalContent.focus();
         }
 
@@ -786,6 +849,12 @@
                 }
             });
         }
+        
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('modal')) {
+                closeModal();
+            }
+        });
 
         function copyTreino() {
             const modalTitle = document.getElementById('modal-title').textContent;
@@ -806,12 +875,6 @@
                 alert('Erro ao copiar. Tente manualmente.');
             });
         }
-        
-        document.getElementById('modal').addEventListener('click', (e) => {
-            if (e.target === document.getElementById('modal')) {
-                closeModal();
-            }
-        });
         
         function calcularTMB() {
             const peso = parseFloat(document.getElementById('peso').value);
@@ -848,33 +911,58 @@
 
             const tmbResult = document.getElementById('tmb-result');
             tmbResult.style.display = 'block';
-            gsap.fromTo(tmbResult, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' });
+            gsap.fromTo(tmbResult, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' });
         }
         
-        // --- ANIMAÇÕES GSAP E SERVICE WORKER ---
+        // --- ANIMAÇÕES GSAP E FUNÇÕES ADICIONAIS ---
         
         function initGsapAnims() {
             gsap.registerPlugin(ScrollTrigger);
 
-            gsap.fromTo('.hero-content', { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 1.2, ease: 'power3.out' });
-            gsap.fromTo('.instagram-button', { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.8, delay: 1, ease: 'elastic.out(1, 0.5)' });
+            gsap.fromTo('.hero-content', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power4.out' });
+            gsap.fromTo('.instagram-button', { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.8, delay: 0.5, ease: 'elastic.out(1, 0.5)' });
 
             document.querySelectorAll('.plan-section h2, .plan-section .plan-description').forEach(el => {
                 gsap.from(el, {
                     scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' },
-                    opacity: 0, y: 50, duration: 1
+                    opacity: 0, y: 30, duration: 0.8, ease: 'power4.out'
                 });
             });
 
-            const treinoCards = document.querySelectorAll('.treino-card');
-            treinoCards.forEach(card => {
-                gsap.from(card, {
+            // Animação com stagger para os cards
+            gsap.utils.toArray('.treino-card').forEach(card => {
+                 gsap.from(card, {
                     scrollTrigger: { trigger: card, start: 'top 90%', toggleActions: 'play none none none' },
-                    opacity: 0, y: 50, scale: 0.95, duration: 0.8, ease: 'power2.out'
+                    opacity: 0, y: 40, scale: 0.98, duration: 0.6, ease: 'power3.out'
                 });
             });
         }
         
+        // --- CONTROLE DE TEMA ---
+        const themeSwitcher = document.getElementById('theme-switcher');
+        const body = document.body;
+        const sunIcon = 'fa-sun';
+        const moonIcon = 'fa-moon';
+
+        function set_theme(theme) {
+            body.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            const icon = theme === 'light' ? moonIcon : sunIcon;
+            themeSwitcher.innerHTML = `<i class="fas ${icon}"></i>`;
+        }
+
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            set_theme(savedTheme);
+
+            themeSwitcher.addEventListener('click', () => {
+                const currentTheme = body.getAttribute('data-theme');
+                const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+                set_theme(newTheme);
+            });
+        }
+
+        // --- SERVICE WORKER E PROMPT DE INSTALAÇÃO ---
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./service-worker.js')
@@ -887,7 +975,10 @@
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
-            document.getElementById('install-prompt').style.display = 'flex';
+            const installPrompt = document.getElementById('install-prompt');
+            if (installPrompt) {
+                 installPrompt.style.display = 'flex';
+            }
         });
 
         function promptInstall() {
@@ -896,7 +987,9 @@
                 deferredPrompt.prompt();
                 deferredPrompt.userChoice.then(() => {
                     deferredPrompt = null;
-                    installPrompt.style.display = 'none';
+                    if(installPrompt) {
+                       installPrompt.style.display = 'none';
+                    }
                 });
             }
         }
