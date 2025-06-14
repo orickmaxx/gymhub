@@ -730,9 +730,6 @@
             <button class="theme-switcher" id="theme-switcher" aria-label="Mudar tema">
                 <i class="fas fa-sun"></i>
             </button>
-            <button class="theme-switcher" id="user-action-btn" aria-label="Login ou Logout" style="width: auto; padding: 0 15px;">
-                Login
-            </button>
         </div>
     </header>
 
@@ -852,29 +849,6 @@
             </div>
         </div>
     </div>
-    
-    <div class="modal" id="login-modal" role="dialog" aria-hidden="true">
-        <div class="modal-content" style="max-width: 400px;">
-            <span class="close-modal" onclick="closeLoginModal()" aria-label="Fechar modal">×</span>
-            <div class="modal-header">
-                <h3 id="login-modal-title">Login</h3>
-            </div>
-            
-            <form id="login-form" onsubmit="handleLogin(event)">
-                <div class="tmb-form" style="padding: 10px 0; box-shadow: none; border: none;">
-                    <label for="identifier">Email ou Usuário:</label>
-                    <input type="text" id="identifier" required>
-                    
-                    <label for="password">Senha:</label>
-                    <input type="password" id="password" required>
-                    
-                    <button type="submit">Entrar</button>
-                </div>
-                <p id="login-error" style="color: #e74c3c; text-align: center; margin-top: 10px; display: none;"></p>
-            </form>
-        </div>
-    </div>
-
 
     <a href="https://www.instagram.com/gymhub.allday/" target="_blank" class="instagram-button" aria-label="Siga-nos no Instagram">
         <i class="fab fa-instagram"></i>
@@ -1032,8 +1006,6 @@
             initTheme();
             initGsapAnims();
             initTimer();
-            // NOVO: Inicializa a UI de autenticação
-            updateUserUI();
         });
 
         function gerarCardsDeTreino(planoId, gridElement) {
@@ -1059,150 +1031,8 @@
                 gridElement.innerHTML += cardHTML;
             }
         }
-        
-        // --- NOVA LÓGICA DE AUTENTICAÇÃO E MODAL DE LOGIN ---
 
-        const userActionButton = document.getElementById('user-action-btn');
-
-        function openLoginModal() {
-            const modal = document.getElementById('login-modal');
-            const modalContent = modal.querySelector('.modal-content');
-            document.getElementById('login-error').style.display = 'none';
-            modal.classList.add('visible');
-            gsap.fromTo(modal, { opacity: 0 }, { opacity: 1, duration: 0.3 });
-            gsap.fromTo(modalContent, { scale: 0.9 }, { scale: 1, duration: 0.4, ease: 'power4.out' });
-        }
-
-        function closeLoginModal() {
-            const modal = document.getElementById('login-modal');
-            gsap.to(modal, {
-                opacity: 0,
-                duration: 0.3,
-                ease: 'power2.out',
-                onComplete: () => modal.classList.remove('visible')
-            });
-        }
-        
-        document.getElementById('login-modal').addEventListener('click', (e) => {
-            if (e.target === document.getElementById('login-modal')) {
-                closeLoginModal();
-            }
-        });
-
-        async function handleLogin(event) {
-            event.preventDefault();
-            const identifier = document.getElementById('identifier').value;
-            const password = document.getElementById('password').value;
-            const errorElement = document.getElementById('login-error');
-            
-            try {
-                const response = await fetch('/api/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ identifier, password }),
-                });
-                const data = await response.json();
-                if (!response.ok) {
-                    errorElement.textContent = data.message || 'Erro ao fazer login.';
-                    errorElement.style.display = 'block';
-                    return;
-                }
-                localStorage.setItem('authToken', data.token);
-                localStorage.setItem('username', data.user.username);
-                closeLoginModal();
-                updateUserUI();
-                // Opcional: recarregar as estatísticas após o login
-                renderStatistics();
-            } catch (error) {
-                console.error('Falha na requisição de login:', error);
-                errorElement.textContent = 'Não foi possível conectar ao servidor.';
-                errorElement.style.display = 'block';
-            }
-        }
-        
-        function handleLogout() {
-            localStorage.removeItem('authToken');
-            localStorage.removeItem('username');
-            // Recarrega a página para limpar o estado
-            location.reload(); 
-        }
-
-        function updateUserUI() {
-            const token = localStorage.getItem('authToken');
-            const username = localStorage.getItem('username');
-
-            if (token && username) {
-                userActionButton.textContent = `Sair (${username})`;
-                userActionButton.onclick = handleLogout;
-            } else {
-                userActionButton.textContent = 'Login';
-                userActionButton.onclick = openLoginModal;
-            }
-        }
-
-        // --- LÓGICA DE DADOS (MODIFICADA PARA USAR API) ---
-
-        // Busca dados do backend se logado, ou do localStorage se não
-        async function getProgressData() {
-            const token = localStorage.getItem('authToken');
-            if (!token) {
-                // Usuário não logado usa o progresso local
-                return JSON.parse(localStorage.getItem('gymhubProgress_local')) || {};
-            }
-
-            try {
-                const response = await fetch('/api/workouts', {
-                    method: 'GET',
-                    headers: { 'Authorization': `Bearer ${token}` },
-                });
-                if (!response.ok) return {};
-                return await response.json();
-            } catch (error) {
-                console.error("Erro ao buscar treinos:", error);
-                return {}; // Retorna vazio em caso de erro
-            }
-        }
-
-        // Salva (ou atualiza) dados no backend se logado, ou no localStorage se não
-        async function saveProgressData(data) {
-            const token = localStorage.getItem('authToken');
-            const today = getTodayDateString();
-            const workoutData = data[today];
-            if (!workoutData) return;
-
-            if (!token) {
-                // Salva localmente para usuários não logados
-                const localData = JSON.parse(localStorage.getItem('gymhubProgress_local')) || {};
-                localData[today] = workoutData;
-                localStorage.setItem('gymhubProgress_local', JSON.stringify(localData));
-                return;
-            }
-
-            // Salva no backend para usuários logados
-            try {
-                await fetch('/api/workouts', {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`,
-                    },
-                    body: JSON.stringify({
-                        date: today,
-                        planoId: workoutData.planoId,
-                        treinoNome: workoutData.treinoNome,
-                        exercises: workoutData.exercises,
-                        completed: workoutData.completed || false,
-                    }),
-                });
-            } catch (error) {
-                console.error("Erro ao salvar treino:", error);
-            }
-        }
-
-        // --- FUNÇÕES DO MODAL E TREINO (MODIFICADAS PARA SEREM ASSÍNCRONAS) ---
-
-        // openModal agora é async para esperar os dados do progresso
-        async function openModal(planoId, treinoNome) {
+        function openModal(planoId, treinoNome) {
             currentPlanId = planoId;
             currentTreinoNome = treinoNome;
 
@@ -1220,7 +1050,7 @@
             modalExercicios.innerHTML = '';
             
             const today = getTodayDateString();
-            const progress = await getProgressData(); // AWAIT
+            const progress = getProgressData();
             const todayProgress = progress[today] && progress[today].treinoNome === treinoNome ? progress[today] : { exercises: {} };
 
             treino.exercicios.forEach(ex => {
@@ -1245,7 +1075,7 @@
                 modalExercicios.appendChild(li);
             });
 
-            await updateFinishWorkoutButton(); // AWAIT
+            updateFinishWorkoutButton();
             resetTimer(true);
             document.getElementById('timer-panel').style.display = 'none';
 
@@ -1254,7 +1084,7 @@
             gsap.fromTo(modalContent, { scale: 0.9, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: 'power4.out' });
             modalContent.focus();
         }
-        
+
         function closeModal() {
             const modal = document.getElementById('modal');
             gsap.to(modal, {
@@ -1272,61 +1102,6 @@
                 closeModal();
             }
         });
-        
-        // toggleExercise agora é async
-        async function toggleExercise(checkbox, exerciseName) {
-            const progress = await getProgressData(); // AWAIT
-            const today = getTodayDateString();
-            
-            if (!progress[today]) {
-                progress[today] = {
-                    planoId: currentPlanId,
-                    treinoNome: currentTreinoNome,
-                    completed: false,
-                    exercises: {}
-                };
-            }
-            
-            progress[today].exercises[exerciseName] = checkbox.checked;
-            await saveProgressData(progress); // AWAIT
-            
-            checkbox.parentElement.classList.toggle('completed-exercise', checkbox.checked);
-        }
-
-        // finishWorkout agora é async
-        async function finishWorkout() {
-            const progress = await getProgressData(); // AWAIT
-            const today = getTodayDateString();
-            if (progress[today]) {
-                progress[today].completed = true;
-                await saveProgressData(progress); // AWAIT
-                await updateFinishWorkoutButton(); // AWAIT
-            }
-        }
-
-        // updateFinishWorkoutButton agora é async
-        async function updateFinishWorkoutButton() {
-            const progress = await getProgressData(); // AWAIT
-            const today = getTodayDateString();
-            const btn = document.getElementById('finish-workout-btn');
-            if (progress[today] && progress[today].completed) {
-                btn.textContent = 'Finalizado!';
-                btn.classList.add('completed');
-                btn.disabled = true;
-            } else {
-                btn.textContent = 'Finalizar Treino';
-                btn.classList.remove('completed');
-                btn.disabled = false;
-            }
-        }
-        
-        function getTodayDateString() {
-            const today = new Date();
-            const year = today.getFullYear();
-            const month = String(today.getMonth() + 1).padStart(2, '0');
-            const day = String(today.getDate()).padStart(2, '0');
-            return `${year}-${month}-${day}`;
-        }
 
         function copyTreino() {
             const modalTitle = document.getElementById('modal-title').textContent;
@@ -1349,11 +1124,108 @@
             });
         }
         
-        // --- FUNÇÕES DE ESTATÍSTICAS E TMB (MODIFICADAS) ---
+        function calcularTMB() {
+            const peso = parseFloat(document.getElementById('peso').value);
+            const altura = parseFloat(document.getElementById('altura').value);
+            const idade = parseInt(document.getElementById('idade').value);
+            const sexo = document.getElementById('sexo').value;
+            const atividade = document.getElementById('atividade').value;
 
-        // renderStatistics agora é async
-        async function renderStatistics() {
-            const progress = await getProgressData(); // AWAIT
+            if (!peso || !altura || !idade || !sexo || !atividade) {
+                alert('Por favor, preencha todos os campos.');
+                return;
+            }
+
+            let tmb;
+            if (sexo === 'masculino') {
+                tmb = 88.362 + (13.397 * peso) + (4.799 * altura) - (5.677 * idade);
+            } else {
+                tmb = 447.593 + (9.247 * peso) + (3.098 * altura) - (4.330 * idade);
+            }
+
+            let fatorAtividade;
+            switch(atividade) {
+                case 'sedentario': fatorAtividade = 1.2; break;
+                case 'moderado': fatorAtividade = 1.375; break;
+                case 'intenso': fatorAtividade = 1.55; break;
+                case 'muito_intenso': fatorAtividade = 1.725; break;
+                default: fatorAtividade = 1.2;
+            }
+
+            const ndc = tmb * fatorAtividade;
+
+            document.getElementById('tmb-value').textContent = tmb.toFixed(2);
+            document.getElementById('ndc-value').textContent = ndc.toFixed(2);
+
+            const tmbResult = document.getElementById('tmb-result');
+            tmbResult.style.display = 'block';
+            gsap.fromTo(tmbResult, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' });
+        }
+        
+        // --- CHECKBOX & PROGRESS LOGIC ---
+        function getTodayDateString() {
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const day = String(today.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        function getProgressData() {
+            return JSON.parse(localStorage.getItem('gymhubProgress')) || {};
+        }
+
+        function saveProgressData(data) {
+            localStorage.setItem('gymhubProgress', JSON.stringify(data));
+        }
+
+        function toggleExercise(checkbox, exerciseName) {
+            const progress = getProgressData();
+            const today = getTodayDateString();
+            
+            if (!progress[today]) {
+                progress[today] = {
+                    planoId: currentPlanId,
+                    treinoNome: currentTreinoNome,
+                    completed: false,
+                    exercises: {}
+                };
+            }
+            
+            progress[today].exercises[exerciseName] = checkbox.checked;
+            saveProgressData(progress);
+            
+            checkbox.parentElement.classList.toggle('completed-exercise', checkbox.checked);
+        }
+
+        function finishWorkout() {
+            const progress = getProgressData();
+            const today = getTodayDateString();
+            if (progress[today]) {
+                progress[today].completed = true;
+                saveProgressData(progress);
+                updateFinishWorkoutButton();
+            }
+        }
+
+        function updateFinishWorkoutButton() {
+            const progress = getProgressData();
+            const today = getTodayDateString();
+            const btn = document.getElementById('finish-workout-btn');
+            if (progress[today] && progress[today].completed) {
+                btn.textContent = 'Finalizado!';
+                btn.classList.add('completed');
+                btn.disabled = true;
+            } else {
+                btn.textContent = 'Finalizar Treino';
+                btn.classList.remove('completed');
+                btn.disabled = false;
+            }
+        }
+
+        // --- STATISTICS LOGIC ---
+        function renderStatistics() {
+            const progress = getProgressData();
             
             // 1. Total Workouts
             const totalWorkouts = Object.values(progress).filter(day => day.completed).length;
@@ -1378,7 +1250,7 @@
             const frequency = {};
             Object.values(progress).forEach(day => {
                 if (day.completed) {
-                    const name = day.treinoNome.split('-')[0].trim();
+                    const name = day.treinoNome.split('-')[0].trim(); // "Treino A - Peito" -> "Treino A"
                     frequency[name] = (frequency[name] || 0) + 1;
                 }
             });
@@ -1400,7 +1272,15 @@
                 options: {
                     responsive: true,
                     plugins: {
-                        legend: { position: 'top', labels: { color: varGet('--text-color-secondary'), font: { family: "'Roboto Condensed', sans-serif" } } }
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                color: varGet('--text-color-secondary'),
+                                font: {
+                                    family: "'Roboto Condensed', sans-serif",
+                                }
+                            }
+                        }
                     }
                 }
             });
@@ -1451,45 +1331,8 @@
             }
         }
 
-        function calcularTMB() {
-            const peso = parseFloat(document.getElementById('peso').value);
-            const altura = parseFloat(document.getElementById('altura').value);
-            const idade = parseInt(document.getElementById('idade').value);
-            const sexo = document.getElementById('sexo').value;
-            const atividade = document.getElementById('atividade').value;
 
-            if (!peso || !altura || !idade || !sexo || !atividade) {
-                alert('Por favor, preencha todos os campos.');
-                return;
-            }
-
-            let tmb;
-            if (sexo === 'masculino') {
-                tmb = 88.362 + (13.397 * peso) + (4.799 * altura) - (5.677 * idade);
-            } else {
-                tmb = 447.593 + (9.247 * peso) + (3.098 * altura) - (4.330 * idade);
-            }
-
-            let fatorAtividade;
-            switch(atividade) {
-                case 'sedentario': fatorAtividade = 1.2; break;
-                case 'moderado': fatorAtividade = 1.375; break;
-                case 'intenso': fatorAtividade = 1.55; break;
-                case 'muito_intenso': fatorAtividade = 1.725; break;
-                default: fatorAtividade = 1.2;
-            }
-
-            const ndc = tmb * fatorAtividade;
-
-            document.getElementById('tmb-value').textContent = tmb.toFixed(2);
-            document.getElementById('ndc-value').textContent = ndc.toFixed(2);
-
-            const tmbResult = document.getElementById('tmb-result');
-            tmbResult.style.display = 'block';
-            gsap.fromTo(tmbResult, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' });
-        }
-        
-        // --- LÓGICA DO CRONÔMETRO (SEM ALTERAÇÕES) ---
+        // --- LÓGICA DO CRONÔMETRO ---
         let timerInterval;
         let totalSeconds = 0;
         let currentSeconds = 0;
@@ -1499,6 +1342,7 @@
         const progressRing = document.getElementById('progress-ring');
         const radius = progressRing.r.baseVal.value;
         const circumference = 2 * Math.PI * radius;
+        // const notificationSound = new Audio('./notification.mp3');
 
         function showTimerPanel() {
              document.getElementById('timer-panel').style.display = 'flex';
@@ -1549,6 +1393,7 @@
                         clearInterval(timerInterval);
                         startPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
                         isRunning = false;
+                        // notificationSound.play();
                         setTimeout(() => resetTimer(true), 500);
                     }
                 }, 1000);
@@ -1567,17 +1412,20 @@
             updateDisplay();
         }
 
-        // --- ANIMAÇÕES GSAP E FUNÇÕES ADICIONAIS (SEM ALTERAÇÕES) ---
+        // --- ANIMAÇÕES GSAP E FUNÇÕES ADICIONAIS ---
         function initGsapAnims() {
             gsap.registerPlugin(ScrollTrigger);
+
             gsap.fromTo('.hero-content', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power4.out' });
             gsap.fromTo('.instagram-button', { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.8, delay: 0.5, ease: 'elastic.out(1, 0.5)' });
+
             document.querySelectorAll('.plan-section h2, .plan-section .plan-description, .stats-section h2, .stats-section .plan-description').forEach(el => {
                 gsap.from(el, {
                     scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' },
                     opacity: 0, y: 30, duration: 0.8, ease: 'power4.out'
                 });
             });
+
             gsap.utils.toArray('.treino-card, .stat-card').forEach(card => {
                  gsap.from(card, {
                     scrollTrigger: { trigger: card, start: 'top 90%', toggleActions: 'play none none none' },
@@ -1586,11 +1434,12 @@
             });
         }
         
-        // --- CONTROLE DE TEMA (MODIFICADO LEVEMENTE) ---
+        // --- CONTROLE DE TEMA ---
         const themeSwitcher = document.getElementById('theme-switcher');
         const body = document.body;
         const sunIcon = 'fa-sun';
         const moonIcon = 'fa-moon';
+        
         const varGet = (name) => getComputedStyle(body).getPropertyValue(name).trim();
 
         function set_theme(theme) {
@@ -1598,7 +1447,7 @@
             localStorage.setItem('theme', theme);
             const icon = theme === 'light' ? moonIcon : sunIcon;
             themeSwitcher.innerHTML = `<i class="fas ${icon}"></i>`;
-            if(workoutFrequencyChart) { // Atualiza o gráfico ao mudar o tema
+            if(workoutFrequencyChart) { // Update chart colors on theme change
                 renderStatistics();
             }
         }
@@ -1606,6 +1455,7 @@
         function initTheme() {
             const savedTheme = localStorage.getItem('theme') || 'dark';
             set_theme(savedTheme);
+
             themeSwitcher.addEventListener('click', () => {
                 const currentTheme = body.getAttribute('data-theme');
                 const newTheme = currentTheme === 'light' ? 'dark' : 'light';
@@ -1613,7 +1463,7 @@
             });
         }
 
-        // --- SERVICE WORKER E PROMPT DE INSTALAÇÃO (SEM ALTERAÇÕES) ---
+        // --- SERVICE WORKER E PROMPT DE INSTALAÇÃO ---
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./service-worker.js')
